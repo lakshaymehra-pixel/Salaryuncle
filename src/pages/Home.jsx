@@ -1,10 +1,34 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
   FiCheckCircle, FiClock, FiShield, FiTrendingUp, FiUsers,
   FiStar, FiArrowRight, FiChevronDown, FiZap, FiAward,
   FiFileText, FiDollarSign, FiPhone, FiCreditCard
 } from 'react-icons/fi';
+import EligibilityChecker from '../components/EligibilityChecker';
+
+// ---------- TICKER ----------
+function Ticker() {
+  const items = [
+    '✅ Rajesh from Delhi got ₹2L in 3 hrs',
+    '🚀 Priya from Mumbai approved in 45 mins',
+    '💰 Amit from Bangalore received ₹5L today',
+    '⚡ Sunita from Hyderabad — loan disbursed!',
+    '🎉 Vikram from Chandigarh got instant approval',
+    '💸 Meena from Pune — ₹1L in 2 hours',
+    '✅ Rohit from Chennai — salary advance approved',
+  ];
+  return (
+    <div className="bg-primary/10 border-y border-primary/20 py-2.5 overflow-hidden">
+      <div className="flex animate-marquee whitespace-nowrap gap-12" style={{animation:'marquee 25s linear infinite'}}>
+        {[...items, ...items].map((item, i) => (
+          <span key={i} className="text-sm text-primary font-medium flex-shrink-0">{item}</span>
+        ))}
+      </div>
+      <style>{`@keyframes marquee { 0% { transform: translateX(0) } 100% { transform: translateX(-50%) } }`}</style>
+    </div>
+  );
+}
 
 // ---------- HERO ----------
 function Hero() {
@@ -619,9 +643,11 @@ export default function Home() {
   return (
     <>
       <Hero />
+      <Ticker />
       <Stats />
       <Services />
       <HowItWorks />
+      <EligibilityChecker />
       <WhyUs />
       <Eligibility />
       <Testimonials />
