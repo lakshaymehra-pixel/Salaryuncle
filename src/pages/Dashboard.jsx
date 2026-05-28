@@ -165,7 +165,7 @@ function StepModal({ stepId, onClose, onComplete }) {
   const update = e => setForm({...form, [e.target.name]: e.target.value});
   const [selfie, setSelfie] = useState(null);
 
-  const handleSubmit = e => { e.preventDefault(); onComplete(stepId); onClose(); };
+  const handleSubmit = e => { e.preventDefault(); onComplete(stepId, form); onClose(); };
 
   const content = {
     pan: (
@@ -310,16 +310,145 @@ function StepModal({ stepId, onClose, onComplete }) {
   );
 }
 
+// ── My Account ───────────────────────────────────────────
+function MyAccount({ phone, profileData, completedSteps, onCardClick }) {
+  const steps = ['pan','personal','address','income','selfie'];
+  const progress = Math.min(100, 30 + Math.round((completedSteps.length / steps.length) * 70));
+
+  const d = profileData;
+  const na = 'NA';
+
+  const basicRows = [
+    { label: 'Your Name',      value: d.fullName || d.panName || na },
+    { label: 'Gender',         value: d.gender   || na },
+    { label: 'DOB',            value: d.dob      || na },
+    { label: 'Marital Status', value: d.marital  || na },
+    { label: 'Personal Email', value: d.email    || na },
+  ];
+  const addressRows = [
+    { label: 'Address 1',      value: d.addr1    || na },
+    { label: 'Address 2',      value: d.addr2    || na },
+    { label: 'Residence Type', value: d.addrType || na },
+    { label: 'Landmark',       value: d.city     || na },
+    { label: 'Pincode',        value: d.pincode  || na },
+  ];
+  const incomeRows = [
+    { label: 'Employment Type',     value: d.empType    || na },
+    { label: 'Salary Date',         value: na },
+    { label: 'Monthly Income',      value: d.salary ? `₹${d.salary}` : na },
+    { label: 'Mode Income Received', value: d.bankName  || na },
+  ];
+
+  return (
+    <div>
+      <h2 className="text-xl font-bold text-gray-900 mb-4">Check Eligibility for Further Process</h2>
+
+      {/* Progress */}
+      <div className="flex items-center gap-3 mb-4">
+        <span className="text-sm font-semibold text-gray-700">Profile Registration</span>
+        <div className="flex-1 max-w-xs h-4 bg-gray-200 rounded-full overflow-hidden">
+          <div className="h-full rounded-full transition-all duration-500"
+            style={{width:`${progress}%`, background:'linear-gradient(90deg,#22c55e,#16a34a)'}} />
+        </div>
+        <span className="text-sm font-bold text-gray-600">{progress}%</span>
+      </div>
+
+      {/* Info banner */}
+      <div className="bg-yellow-50 border border-yellow-200 rounded-lg px-4 py-2 text-xs text-gray-600 mb-5">
+        Register now to explore a range of tailored services just for you. Once registered, our loan service will be available to meet your financial needs.
+      </div>
+
+      {/* Profile card */}
+      <div className="bg-white border border-gray-200 rounded-xl p-5 mb-5 flex items-start justify-between gap-4 shadow-sm">
+        <div className="flex items-start gap-4">
+          <div className="w-20 h-20 bg-gray-100 rounded-lg flex items-center justify-center flex-shrink-0 border border-gray-200">
+            <svg viewBox="0 0 24 24" className="w-10 h-10 text-gray-400" fill="none" stroke="currentColor" strokeWidth="1.5">
+              <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+            </svg>
+          </div>
+          <div className="space-y-1.5 text-sm">
+            <div className="flex gap-2">
+              <span className="text-blue-600 font-semibold w-20 flex-shrink-0">Name:</span>
+              <span className="text-gray-800 font-semibold">{d.fullName || d.panName || na}</span>
+            </div>
+            <div className="flex gap-2">
+              <span className="text-blue-600 font-semibold w-20 flex-shrink-0">PAN Card:</span>
+              <span className="text-gray-800">{d.pan ? d.pan.toUpperCase() : na}</span>
+            </div>
+            <div className="flex gap-2">
+              <span className="text-blue-600 font-semibold w-20 flex-shrink-0">Mobile:</span>
+              <span className="text-gray-800">{phone}</span>
+            </div>
+          </div>
+        </div>
+        <button onClick={() => onCardClick('pan')}
+          className="flex-shrink-0 px-5 py-2 rounded-full text-white text-sm font-semibold"
+          style={{background:'linear-gradient(135deg,#29b6d4,#1976d2)'}}>
+          Check Eligibility
+        </button>
+      </div>
+
+      {/* Italic quote */}
+      <p className="text-xs text-gray-500 italic mb-5 px-1">
+        Don't let uncertainty hold you back. It's time to explore the possibilities.
+      </p>
+
+      {/* 3 detail sections */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {/* Basic Details */}
+        <div className="bg-white border border-gray-200 rounded-xl p-4 shadow-sm">
+          <h3 className="text-sm font-bold text-gray-800 mb-3 pb-2 border-b border-gray-100">Basic Details</h3>
+          <div className="space-y-2">
+            {basicRows.map(r => (
+              <div key={r.label} className="flex justify-between gap-2 text-xs">
+                <span className="text-gray-500 flex-shrink-0">{r.label}</span>
+                <span className={`font-semibold text-right ${r.value === na ? 'text-gray-400' : 'text-gray-800'}`}>{r.value}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Residence Address */}
+        <div className="bg-white border border-gray-200 rounded-xl p-4 shadow-sm">
+          <h3 className="text-sm font-bold text-gray-800 mb-3 pb-2 border-b border-gray-100">Residence Address</h3>
+          <div className="space-y-2">
+            {addressRows.map(r => (
+              <div key={r.label} className="flex justify-between gap-2 text-xs">
+                <span className="text-gray-500 flex-shrink-0">{r.label}</span>
+                <span className={`font-semibold text-right ${r.value === na ? 'text-gray-400' : 'text-gray-800'}`}>{r.value}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Income Details */}
+        <div className="bg-white border border-gray-200 rounded-xl p-4 shadow-sm">
+          <h3 className="text-sm font-bold text-gray-800 mb-3 pb-2 border-b border-gray-100">Income Details</h3>
+          <div className="space-y-2">
+            {incomeRows.map(r => (
+              <div key={r.label} className="flex justify-between gap-2 text-xs">
+                <span className="text-gray-500 flex-shrink-0">{r.label}</span>
+                <span className={`font-semibold text-right ${r.value === na ? 'text-gray-400' : 'text-gray-800'}`}>{r.value}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // ── Loan History ──────────────────────────────────────────
-function LoanHistory({ phone }) {
+function LoanHistory({ phone, profileData }) {
+  const d = profileData || {};
   return (
     <div>
       <div className="bg-white rounded-2xl p-6 mb-6 border border-gray-100 shadow-sm">
         <div className="flex items-start gap-4">
           <div className="w-20 h-20 bg-gray-100 rounded-xl flex items-center justify-center text-3xl">👤</div>
           <div className="space-y-1 text-sm">
-            <div className="flex gap-3"><span className="text-blue-600 font-semibold w-20">Name:</span><span className="text-gray-700">NA</span></div>
-            <div className="flex gap-3"><span className="text-blue-600 font-semibold w-20">PAN Card:</span><span className="text-gray-700">NA</span></div>
+            <div className="flex gap-3"><span className="text-blue-600 font-semibold w-20">Name:</span><span className="text-gray-700">{d.fullName || d.panName || 'NA'}</span></div>
+            <div className="flex gap-3"><span className="text-blue-600 font-semibold w-20">PAN Card:</span><span className="text-gray-700">{d.pan ? d.pan.toUpperCase() : 'NA'}</span></div>
             <div className="flex gap-3"><span className="text-blue-600 font-semibold w-20">Mobile:</span><span className="text-gray-700">{phone}</span></div>
           </div>
         </div>
@@ -567,6 +696,7 @@ export default function Dashboard() {
   const [activePage, setActivePage] = useState('dashboard');
   const [activeStep, setActiveStep] = useState(null);
   const [completedSteps, setCompletedSteps] = useState([]);
+  const [profileData, setProfileData] = useState({});
   const phone = sessionStorage.getItem('su_phone') || '9999999999';
 
   useEffect(() => {
@@ -579,18 +709,19 @@ export default function Dashboard() {
     navigate('/');
   };
 
-  const handleComplete = (stepId) => {
+  const handleComplete = (stepId, formData) => {
     setCompletedSteps(prev => prev.includes(stepId) ? prev : [...prev, stepId]);
+    setProfileData(prev => ({ ...prev, ...formData }));
   };
 
   const renderContent = () => {
     switch (activePage) {
       case 'dashboard': return <ProfileRegistration onCardClick={setActiveStep} completedSteps={completedSteps} />;
-      case 'account': return <ProfileRegistration onCardClick={setActiveStep} completedSteps={completedSteps} />;
-      case 'loans': return <LoanHistory phone={phone} />;
-      case 'support': return <Support />;
-      case 'terms': return <Terms />;
-      case 'privacy': return <Privacy />;
+      case 'account':   return <MyAccount phone={phone} profileData={profileData} completedSteps={completedSteps} onCardClick={setActiveStep} />;
+      case 'loans':     return <LoanHistory phone={phone} profileData={profileData} />;
+      case 'support':   return <Support />;
+      case 'terms':     return <Terms />;
+      case 'privacy':   return <Privacy />;
       default: return null;
     }
   };
@@ -616,7 +747,9 @@ export default function Dashboard() {
         </div>
 
         <div className="flex items-center gap-2 bg-white/20 rounded-full px-4 py-1.5">
-          <span className="text-white text-sm font-semibold">Hi,</span>
+          <span className="text-white text-sm font-semibold">
+            Hi, {profileData.fullName || profileData.panName || phone.slice(-4)}
+          </span>
           <div className="w-7 h-7 bg-white/30 rounded-full flex items-center justify-center">
             <svg viewBox="0 0 24 24" className="w-4 h-4" fill="white"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
           </div>
