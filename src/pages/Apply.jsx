@@ -1,144 +1,136 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-// ── Right side graphic (loan categories around girl) ──────
+// ── Right side graphic ────────────────────────────────────
 function RightGraphic() {
-  const categories = [
-    { label: 'SHOPPING', x: '20%', y: '4%' },
-    { label: 'TRAVEL', x: '68%', y: '2%' },
-    { label: 'MEDICAL', x: '2%', y: '22%' },
-    { label: 'CLUB & PARTY', x: '72%', y: '20%' },
-    { label: 'GIFTS', x: '2%', y: '60%' },
-    { label: 'OBLIGATIONS', x: '68%', y: '60%' },
+  const nodes = [
+    { cx: 130, cy: 100, label: 'SHOPPING',    emoji: '🛍️',  lx: 255, ly: 248 },
+    { cx: 440, cy: 85,  label: 'TRAVEL',       emoji: '✈️',  lx: 315, ly: 240 },
+    { cx: 62,  cy: 260, label: 'MEDICAL',      emoji: '🏥',  lx: 238, ly: 278 },
+    { cx: 512, cy: 255, label: 'CLUB & PARTY', emoji: '🎉',  lx: 342, ly: 272 },
+    { cx: 98,  cy: 420, label: 'GIFTS',        emoji: '🎁',  lx: 248, ly: 358 },
+    { cx: 476, cy: 420, label: 'OBLIGATIONS',  emoji: '📋',  lx: 332, ly: 358 },
   ];
 
-  const icons = {
-    SHOPPING: (
-      <svg viewBox="0 0 24 24" className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth="1.8">
-        <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/>
-        <path d="M16 10a4 4 0 01-8 0"/>
-      </svg>
-    ),
-    TRAVEL: (
-      <svg viewBox="0 0 24 24" className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth="1.8">
-        <circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/>
-        <path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/>
-      </svg>
-    ),
-    MEDICAL: (
-      <svg viewBox="0 0 24 24" className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth="1.8">
-        <circle cx="12" cy="12" r="10"/>
-        <line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/>
-      </svg>
-    ),
-    'CLUB & PARTY': (
-      <svg viewBox="0 0 24 24" className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth="1.8">
-        <path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>
-      </svg>
-    ),
-    GIFTS: (
-      <svg viewBox="0 0 24 24" className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth="1.8">
-        <polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/>
-        <line x1="12" y1="22" x2="12" y2="7"/>
-        <path d="M12 7H7.5a2.5 2.5 0 010-5C11 2 12 7 12 7z"/>
-        <path d="M12 7h4.5a2.5 2.5 0 000-5C13 2 12 7 12 7z"/>
-      </svg>
-    ),
-    OBLIGATIONS: (
-      <svg viewBox="0 0 24 24" className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth="1.8">
-        <circle cx="12" cy="8" r="4"/><path d="M12 14c-6 0-8 2-8 4v1h16v-1c0-2-2-4-8-4z"/>
-        <path d="M16 8s1 1 1 3-1 3-1 3"/>
-      </svg>
-    ),
-  };
-
   return (
-    <div className="relative w-full h-full min-h-[500px] flex items-center justify-center">
-      {/* SVG lines connecting to center */}
-      <svg className="absolute inset-0 w-full h-full" viewBox="0 0 600 500" preserveAspectRatio="xMidYMid meet">
-        {/* Lines from categories to center girl */}
-        <line x1="160" y1="50" x2="300" y2="220" stroke="#000" strokeWidth="1.5" opacity="0.6"/>
-        <line x1="430" y1="30" x2="350" y2="200" stroke="#000" strokeWidth="1.5" opacity="0.6"/>
-        <line x1="80" y1="140" x2="260" y2="240" stroke="#000" strokeWidth="1.5" opacity="0.6"/>
-        <line x1="470" y1="130" x2="360" y2="230" stroke="#000" strokeWidth="1.5" opacity="0.6"/>
-        <line x1="80" y1="340" x2="270" y2="300" stroke="#000" strokeWidth="1.5" opacity="0.6"/>
-        <line x1="460" y1="340" x2="360" y2="290" stroke="#000" strokeWidth="1.5" opacity="0.6"/>
+    <div className="relative w-full flex items-center justify-center select-none" style={{minHeight:'520px'}}>
+      <svg viewBox="0 0 580 530" className="w-full max-w-xl" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <radialGradient id="glowBg" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stopColor="#7dd3d3" stopOpacity="0.5"/>
+            <stop offset="100%" stopColor="#7dd3d3" stopOpacity="0"/>
+          </radialGradient>
+          <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+            <feDropShadow dx="0" dy="4" stdDeviation="6" floodColor="#0f4c81" floodOpacity="0.12"/>
+          </filter>
+        </defs>
+
+        {/* Background glow */}
+        <ellipse cx="290" cy="300" rx="160" ry="160" fill="url(#glowBg)"/>
+
+        {/* Connecting dashed lines */}
+        {nodes.map((n, i) => (
+          <line key={i} x1={n.lx} y1={n.ly} x2={n.cx} y2={n.cy}
+            stroke="#2563eb" strokeWidth="1.5" strokeDasharray="6 4" opacity="0.35"/>
+        ))}
+
+        {/* ── PERSON ── */}
+        {/* Floor shadow */}
+        <ellipse cx="290" cy="468" rx="72" ry="10" fill="#93c5c5" opacity="0.45"/>
+
+        {/* Legs */}
+        <path d="M268 342 Q262 390 255 430 L278 432 Q285 390 290 362Z" fill="#1e3a5f"/>
+        <path d="M312 342 Q318 390 325 430 L302 432 Q295 390 290 362Z" fill="#1e3a5f"/>
+        {/* Shoes */}
+        <path d="M248 428 Q238 430 235 436 Q240 442 260 440 Q272 437 275 432Z" fill="#1a1a2e"/>
+        <path d="M332 428 Q342 430 345 436 Q340 442 320 440 Q308 437 305 432Z" fill="#1a1a2e"/>
+
+        {/* Torso — teal top */}
+        <path d="M256 268 Q248 308 246 342 L334 342 Q332 308 324 268 Q307 254 290 252 Q273 254 256 268Z" fill="#0d9488"/>
+        {/* V-neck */}
+        <path d="M276 270 L290 258 L304 270 L300 295 L280 295Z" fill="#0f766e"/>
+        {/* White collar detail */}
+        <path d="M276 270 Q283 263 290 261 Q297 263 304 270" stroke="white" strokeWidth="1.5" fill="none" opacity="0.6"/>
+
+        {/* Left arm */}
+        <path d="M256 272 Q236 292 226 318 L240 320 Q246 300 258 280Z" fill="#d4956a"/>
+        <ellipse cx="226" cy="322" rx="11" ry="10" fill="#d4956a"/>
+
+        {/* Right arm — raised toward laptop */}
+        <path d="M324 270 Q344 256 358 240 L348 234 Q334 248 322 264Z" fill="#d4956a"/>
+        <ellipse cx="360" cy="234" rx="11" ry="10" fill="#d4956a"/>
+
+        {/* Neck */}
+        <rect x="283" y="242" width="14" height="16" rx="6" fill="#d4956a"/>
+
+        {/* Head */}
+        <circle cx="290" cy="220" r="34" fill="#d4956a"/>
+
+        {/* Hair top */}
+        <path d="M258 216 Q260 184 290 178 Q320 184 322 216 Q308 196 290 198 Q272 196 258 216Z" fill="#1a0a00"/>
+        <ellipse cx="290" cy="178" rx="18" ry="12" fill="#1a0a00"/>
+        {/* Hair bun */}
+        <circle cx="304" cy="172" r="10" fill="#2d1500"/>
+        <circle cx="304" cy="172" r="6" fill="#1a0a00"/>
+        {/* Side strand */}
+        <path d="M322 212 Q332 224 328 240 Q320 232 316 220Z" fill="#1a0a00"/>
+
+        {/* Eyes */}
+        <ellipse cx="279" cy="218" rx="4" ry="4.5" fill="white"/>
+        <ellipse cx="301" cy="218" rx="4" ry="4.5" fill="white"/>
+        <circle cx="280" cy="219" r="2.8" fill="#1a0a00"/>
+        <circle cx="302" cy="219" r="2.8" fill="#1a0a00"/>
+        <circle cx="281" cy="217.5" r="1" fill="white"/>
+        <circle cx="303" cy="217.5" r="1" fill="white"/>
+        {/* Eyebrows */}
+        <path d="M273 210 Q279 207 285 210" stroke="#1a0a00" strokeWidth="2" strokeLinecap="round"/>
+        <path d="M295 210 Q301 207 307 210" stroke="#1a0a00" strokeWidth="2" strokeLinecap="round"/>
+        {/* Nose */}
+        <path d="M288 226 Q290 231 292 226" stroke="#b8714a" strokeWidth="1.3" strokeLinecap="round"/>
+        {/* Smile */}
+        <path d="M281 236 Q290 244 299 236" stroke="#b8714a" strokeWidth="2" fill="none" strokeLinecap="round"/>
+        {/* Blush */}
+        <ellipse cx="271" cy="230" rx="7" ry="4.5" fill="#f87171" opacity="0.28"/>
+        <ellipse cx="309" cy="230" rx="7" ry="4.5" fill="#f87171" opacity="0.28"/>
+
+        {/* ── LAPTOP on lap ── */}
+        <rect x="220" y="330" width="140" height="14" rx="6" fill="#94a3b8"/>
+        <rect x="228" y="268" width="124" height="68" rx="6" fill="#cbd5e1"/>
+        <rect x="234" y="274" width="112" height="58" rx="4" fill="#0f172a"/>
+        <rect x="240" y="280" width="55" height="5" rx="2.5" fill="#38bdf8" opacity="0.9"/>
+        <rect x="240" y="289" width="40" height="4" rx="2" fill="#7dd3fc" opacity="0.7"/>
+        <rect x="240" y="297" width="68" height="4" rx="2" fill="#38bdf8" opacity="0.5"/>
+        <rect x="240" y="305" width="32" height="4" rx="2" fill="#7dd3fc" opacity="0.4"/>
+        {/* Green chart bar on screen */}
+        <rect x="302" y="298" width="10" height="14" rx="2" fill="#4ade80" opacity="0.8"/>
+        <rect x="315" y="290" width="10" height="22" rx="2" fill="#22c55e" opacity="0.8"/>
+        <rect x="328" y="283" width="10" height="29" rx="2" fill="#16a34a" opacity="0.8"/>
+
+        {/* ── CATEGORY NODES ── */}
+        {nodes.map((n, i) => (
+          <g key={i} filter="url(#shadow)">
+            {/* White card circle */}
+            <circle cx={n.cx} cy={n.cy} r="42" fill="white" stroke="#e2e8f0" strokeWidth="1.5"/>
+            <circle cx={n.cx} cy={n.cy} r="34" fill="#f0fdf9" stroke="#0d9488" strokeWidth="1.5" opacity="0.6"/>
+            {/* Emoji */}
+            <text x={n.cx} y={n.cy + 7} textAnchor="middle" fontSize="22">{n.emoji}</text>
+            {/* Label pill */}
+            <rect x={n.cx - 44} y={n.cy + 48} width="88" height="22" rx="11" fill="#0f172a"/>
+            <text x={n.cx} y={n.cy + 63} textAnchor="middle" fill="white"
+              fontSize={n.label.length > 8 ? "7.5" : "8.5"} fontWeight="700"
+              letterSpacing="0.8" fontFamily="Inter,sans-serif">{n.label}</text>
+          </g>
+        ))}
+
+        {/* ── Floating ₹ rupee badge ── */}
+        <circle cx="376" cy="175" r="22" fill="#fbbf24" filter="url(#shadow)"/>
+        <text x="376" y="182" textAnchor="middle" fill="white" fontSize="18" fontWeight="900" fontFamily="Inter,sans-serif">₹</text>
+
+        {/* ── Approval badge (top ribbon) ── */}
+        <rect x="162" y="34" width="136" height="32" rx="16" fill="#0d9488" filter="url(#shadow)"/>
+        <text x="230" y="54" textAnchor="middle" fill="white" fontSize="11" fontWeight="700" letterSpacing="0.5" fontFamily="Inter,sans-serif">✓ Instant Approval</text>
+
       </svg>
-
-      {/* Category bubbles */}
-      {/* SHOPPING */}
-      <div className="absolute flex flex-col items-center gap-1" style={{top:'4%', left:'18%'}}>
-        <div className="w-16 h-16 rounded-full border-2 border-gray-800 bg-white flex items-center justify-center">{icons['SHOPPING']}</div>
-        <div className="bg-gray-900 text-white text-xs font-bold px-3 py-1 rounded-full tracking-wider">SHOPPING</div>
-      </div>
-
-      {/* TRAVEL */}
-      <div className="absolute flex flex-col items-center gap-1" style={{top:'4%', right:'8%'}}>
-        <div className="w-16 h-16 rounded-full border-2 border-gray-800 bg-white flex items-center justify-center">{icons['TRAVEL']}</div>
-        <div className="bg-gray-900 text-white text-xs font-bold px-3 py-1 rounded-full tracking-wider">TRAVEL</div>
-      </div>
-
-      {/* MEDICAL */}
-      <div className="absolute flex flex-col items-center gap-1" style={{top:'25%', left:'2%'}}>
-        <div className="bg-gray-900 text-white text-xs font-bold px-3 py-1 rounded-full tracking-wider mb-1">MEDICAL</div>
-        <div className="w-16 h-16 rounded-full border-2 border-gray-800 bg-white flex items-center justify-center">{icons['MEDICAL']}</div>
-      </div>
-
-      {/* CLUB & PARTY */}
-      <div className="absolute flex flex-col items-center gap-1" style={{top:'22%', right:'2%'}}>
-        <div className="bg-gray-900 text-white text-xs font-bold px-3 py-1 rounded-full tracking-wider mb-1">CLUB & PARTY</div>
-        <div className="w-16 h-16 rounded-full border-2 border-gray-800 bg-white flex items-center justify-center">{icons['CLUB & PARTY']}</div>
-      </div>
-
-      {/* GIFTS */}
-      <div className="absolute flex flex-col items-center gap-1" style={{bottom:'20%', left:'2%'}}>
-        <div className="bg-gray-900 text-white text-xs font-bold px-3 py-1 rounded-full tracking-wider mb-1">GIFTS</div>
-        <div className="w-16 h-16 rounded-full border-2 border-gray-800 bg-white flex items-center justify-center">{icons['GIFTS']}</div>
-      </div>
-
-      {/* OBLIGATIONS */}
-      <div className="absolute flex flex-col items-center gap-1" style={{bottom:'20%', right:'2%'}}>
-        <div className="bg-gray-900 text-white text-xs font-bold px-3 py-1 rounded-full tracking-wider mb-1">OBLIGATIONS</div>
-        <div className="w-16 h-16 rounded-full border-2 border-gray-800 bg-white flex items-center justify-center">{icons['OBLIGATIONS']}</div>
-      </div>
-
-      {/* Center girl illustration */}
-      <div className="relative z-10 flex items-center justify-center">
-        <div className="w-52 h-64 bg-gradient-to-b from-teal-200/30 to-transparent rounded-full flex items-end justify-center overflow-hidden">
-          {/* SVG girl placeholder — professional sitting with laptop */}
-          <svg viewBox="0 0 200 260" className="w-full h-full" fill="none">
-            {/* Body */}
-            <ellipse cx="100" cy="200" rx="55" ry="20" fill="#b2d8d8" opacity="0.3"/>
-            {/* Legs crossed */}
-            <path d="M70 180 Q60 210 50 220 Q80 215 100 210 Q120 215 150 220 Q140 210 130 180Z" fill="#4a6fa5"/>
-            {/* Jacket/body */}
-            <path d="M65 120 Q55 150 60 180 L140 180 Q145 150 135 120 Q120 110 100 108 Q80 110 65 120Z" fill="#1e3a5f"/>
-            {/* Inner shirt */}
-            <path d="M85 120 L100 108 L115 120 L112 160 L88 160Z" fill="#c0392b"/>
-            {/* Head */}
-            <circle cx="100" cy="88" r="28" fill="#c8a882"/>
-            {/* Hair */}
-            <path d="M72 82 Q75 55 100 58 Q125 55 128 82 Q120 70 100 72 Q80 70 72 82Z" fill="#2c1810"/>
-            <path d="M128 82 Q135 90 130 105 Q122 95 118 88Z" fill="#2c1810"/>
-            {/* Face features */}
-            <circle cx="91" cy="88" r="3" fill="#8b6854"/>
-            <circle cx="109" cy="88" r="3" fill="#8b6854"/>
-            <path d="M93 97 Q100 102 107 97" stroke="#8b6854" strokeWidth="1.5" fill="none"/>
-            {/* Arms */}
-            <path d="M65 125 Q45 140 50 160 Q55 155 65 145 Q60 135 70 130Z" fill="#c8a882"/>
-            <path d="M135 125 Q155 140 150 160 Q145 155 135 145 Q140 135 130 130Z" fill="#c8a882"/>
-            {/* Laptop */}
-            <rect x="55" y="155" width="90" height="55" rx="4" fill="#e0e0e0"/>
-            <rect x="58" y="158" width="84" height="48" rx="3" fill="#2c3e50"/>
-            <rect x="50" y="208" width="100" height="6" rx="3" fill="#bdbdbd"/>
-            {/* Watch */}
-            <rect x="48" y="153" width="8" height="5" rx="1" fill="#888"/>
-            {/* Fist raised */}
-            <circle cx="150" cy="152" r="10" fill="#c8a882"/>
-            <path d="M144 148 L156 148 L158 158 L142 158Z" fill="#c8a882"/>
-          </svg>
-        </div>
-      </div>
     </div>
   );
 }
