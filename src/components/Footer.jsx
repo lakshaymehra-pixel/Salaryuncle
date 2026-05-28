@@ -85,7 +85,7 @@ export default function Footer() {
               </li>
               <li className="flex items-center gap-3">
                 <FiPhone className="text-primary flex-shrink-0" size={16} />
-                <a href="tel:+918800123456" className="text-sm text-gray-400 hover:text-primary transition-colors">+91 88001 23456</a>
+                <a href="tel:+918796041166" className="text-sm text-gray-400 hover:text-primary transition-colors">+91 87960 41166</a>
               </li>
               <li className="flex items-center gap-3">
                 <FiMail className="text-primary flex-shrink-0" size={16} />

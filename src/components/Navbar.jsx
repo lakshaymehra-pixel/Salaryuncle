@@ -35,7 +35,7 @@ export default function Navbar() {
         <div className="max-w-7xl mx-auto flex items-center justify-between text-sm">
           <span className="flex items-center gap-2">
             <FiPhone size={14} />
-            <a href="tel:+918800123456" className="hover:underline">+91 88001 23456</a>
+            <a href="tel:+918796041166" className="hover:underline">+91 87960 41166</a>
           </span>
           <span>Quick Loans | Trusted by 50,000+ Salaried Professionals</span>
         </div>

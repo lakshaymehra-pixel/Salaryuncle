@@ -33,9 +33,9 @@ export default function Contact() {
               {
                 icon: FiPhone,
                 title: 'Call Us',
-                desc: '+91 88001 23456',
+                desc: '+91 87960 41166',
                 subdesc: 'Mon–Sat: 9 AM – 7 PM',
-                link: 'tel:+918800123456',
+                link: 'tel:+918796041166',
                 cta: 'Call Now',
                 color: 'bg-primary',
               },
@@ -51,9 +51,9 @@ export default function Contact() {
               {
                 icon: FiMessageCircle,
                 title: 'WhatsApp',
-                desc: '+91 88001 23456',
+                desc: '+91 87960 41166',
                 subdesc: 'Chat 24/7 for instant support',
-                link: 'https://wa.me/918800123456',
+                link: 'https://wa.me/918796041166',
                 cta: 'Chat Now',
                 color: 'bg-green-600',
               },

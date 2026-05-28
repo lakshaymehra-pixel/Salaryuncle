@@ -627,10 +627,10 @@ function CTABanner() {
             Apply for a Loan — Free
           </Link>
           <a
-            href="tel:+918800123456"
+            href="tel:+918796041166"
             className="border-2 border-white text-white font-semibold px-10 py-4 rounded-xl hover:bg-white/10 transition-colors flex items-center gap-2 justify-center"
           >
-            <FiPhone size={18} /> Call: +91 88001 23456
+            <FiPhone size={18} /> Call: +91 87960 41166
           </a>
         </div>
       </div>

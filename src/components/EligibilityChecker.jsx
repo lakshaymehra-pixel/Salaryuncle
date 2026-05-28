@@ -157,7 +157,7 @@ export default function EligibilityChecker() {
                     </div>
                     <div className="bg-blue-50 border border-blue-100 rounded-xl p-4 mb-5 text-left">
                       <p className="text-blue-700 text-sm font-semibold mb-1">💡 Tip</p>
-                      <p className="text-blue-600 text-xs">Call us at +91 88001 23456 — our team can help find alternative solutions for your situation.</p>
+                      <p className="text-blue-600 text-xs">Call us at +91 87960 41166 — our team can help find alternative solutions for your situation.</p>
                     </div>
                     <button onClick={() => setResult(null)} className="btn-outline w-full justify-center">
                       ← Try Again

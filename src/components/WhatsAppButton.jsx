@@ -12,7 +12,7 @@ export default function WhatsAppButton() {
   const [open, setOpen] = useState(false);
 
   const sendMessage = (msg) => {
-    window.open(`https://wa.me/918800123456?text=${encodeURIComponent(msg)}`, '_blank');
+    window.open(`https://wa.me/918796041166?text=${encodeURIComponent(msg)}`, '_blank');
     setOpen(false);
   };
 
