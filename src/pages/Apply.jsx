@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 // ── Right side graphic ────────────────────────────────────
 function RightGraphic() {
@@ -136,6 +137,8 @@ function RightGraphic() {
 }
 
 // ── MOBILE SCREEN ─────────────────────────────────────────
+const FAKE_OTP = '1234';
+
 function MobileScreen({ onOtpSent }) {
   const [phone, setPhone] = useState('');
   const [consent, setConsent] = useState(false);
@@ -146,6 +149,7 @@ function MobileScreen({ onOtpSent }) {
     setLoading(true);
     await new Promise(r => setTimeout(r, 1000));
     setLoading(false);
+    toast.success(`OTP sent! Use ${FAKE_OTP} to verify`, { duration: 6000, icon: '📱' });
     onOtpSent(phone);
   };
 
@@ -196,6 +200,7 @@ function OtpScreen({ phone, onVerified }) {
   const [otp, setOtp] = useState('');
   const [timer, setTimer] = useState(30);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
   useEffect(() => {
     const t = setInterval(() => setTimer(s => s > 0 ? s - 1 : 0), 1000);
@@ -205,8 +210,15 @@ function OtpScreen({ phone, onVerified }) {
   const handleVerify = async () => {
     if (otp.length < 4) return;
     setLoading(true);
-    await new Promise(r => setTimeout(r, 1000));
+    setError('');
+    await new Promise(r => setTimeout(r, 800));
     setLoading(false);
+    if (otp !== FAKE_OTP) {
+      setError('Invalid OTP. Please try again.');
+      toast.error('Wrong OTP!');
+      return;
+    }
+    toast.success('OTP verified!');
     onVerified();
   };
 
@@ -232,6 +244,9 @@ function OtpScreen({ phone, onVerified }) {
           className="flex-1 px-4 py-4 text-base outline-none bg-transparent text-gray-800"
         />
       </div>
+
+      {/* Error */}
+      {error && <p className="text-red-500 text-sm mb-3">{error}</p>}
 
       {/* Verify button */}
       <button onClick={handleVerify} disabled={otp.length < 4 || loading}
