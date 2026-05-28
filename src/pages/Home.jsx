@@ -30,6 +30,90 @@ function Ticker() {
   );
 }
 
+// ---------- QUICK LOAN CARD (dynamic) ----------
+function QuickLoanCard() {
+  const [amount, setAmount] = useState(200000);
+  const [tenure, setTenure] = useState(12);
+  const rate = 10.5;
+
+  const r = rate / 100 / 12;
+  const emi = Math.round((amount * r * Math.pow(1 + r, tenure)) / (Math.pow(1 + r, tenure) - 1));
+  const total = emi * tenure;
+  const interest = total - amount;
+  const principalPct = Math.round((amount / total) * 100);
+
+  const fmt = (n) => '₹' + Math.round(n).toLocaleString('en-IN');
+
+  return (
+    <div className="bg-white rounded-3xl shadow-2xl p-7 w-full max-w-sm">
+      <h3 className="font-heading font-bold text-gray-900 text-xl mb-5">Quick Loan Check</h3>
+
+      {/* Amount slider */}
+      <div className="mb-5">
+        <div className="flex justify-between mb-1.5">
+          <label className="text-sm font-medium text-gray-700">Loan Amount</label>
+          <span className="text-primary font-bold text-sm">{fmt(amount)}</span>
+        </div>
+        <input type="range" min="10000" max="500000" step="5000" value={amount}
+          onChange={e => setAmount(+e.target.value)}
+          className="w-full h-2 rounded-full appearance-none cursor-pointer accent-primary bg-gray-200"/>
+        <div className="flex justify-between text-xs text-gray-400 mt-1">
+          <span>₹10K</span><span>₹5L</span>
+        </div>
+      </div>
+
+      {/* Tenure slider */}
+      <div className="mb-5">
+        <div className="flex justify-between mb-1.5">
+          <label className="text-sm font-medium text-gray-700">Tenure</label>
+          <span className="text-primary font-bold text-sm">{tenure} Months</span>
+        </div>
+        <input type="range" min="3" max="60" step="3" value={tenure}
+          onChange={e => setTenure(+e.target.value)}
+          className="w-full h-2 rounded-full appearance-none cursor-pointer accent-primary bg-gray-200"/>
+        <div className="flex justify-between text-xs text-gray-400 mt-1">
+          <span>3 Mo</span><span>60 Mo</span>
+        </div>
+      </div>
+
+      {/* Progress bar */}
+      <div className="flex rounded-full overflow-hidden h-2.5 mb-1">
+        <div className="bg-primary h-full transition-all duration-300" style={{width:`${principalPct}%`}}/>
+        <div className="bg-primary/25 h-full flex-1"/>
+      </div>
+      <div className="flex justify-between text-xs text-gray-400 mb-4">
+        <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-primary inline-block"/>Principal</span>
+        <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-primary/25 inline-block"/>Interest</span>
+      </div>
+
+      {/* Results */}
+      <div className="bg-primary-50 rounded-2xl p-4 mb-5 border border-primary/20 space-y-2">
+        <div className="flex justify-between items-center">
+          <span className="text-sm text-gray-600">Monthly EMI</span>
+          <span className="font-bold text-primary text-lg">{fmt(emi)}</span>
+        </div>
+        <div className="flex justify-between items-center">
+          <span className="text-sm text-gray-600">Total Interest</span>
+          <span className="font-semibold text-gray-800 text-sm">{fmt(interest)}</span>
+        </div>
+        <div className="flex justify-between items-center border-t border-primary/10 pt-2">
+          <span className="text-sm font-semibold text-gray-700">Total Payment</span>
+          <span className="font-bold text-gray-900 text-sm">{fmt(total)}</span>
+        </div>
+        <div className="flex justify-between items-center">
+          <span className="text-sm text-gray-600">Interest Rate</span>
+          <span className="font-semibold text-gray-800 text-sm">{rate}% p.a.</span>
+        </div>
+      </div>
+
+      <Link to="/apply" className="btn-primary w-full justify-center py-3.5 text-base">
+        Get This Loan Now →
+      </Link>
+      <p className="text-xs text-center text-gray-400 mt-2">*Indicative rates. Final rate based on profile.</p>
+    </div>
+  );
+}
+
 // ---------- HERO ----------
 function Hero() {
   return (
@@ -74,50 +158,7 @@ function Hero() {
 
           {/* Right — Loan Card */}
           <div className="flex justify-center lg:justify-end">
-            <div className="bg-white rounded-3xl shadow-2xl p-8 w-full max-w-sm">
-              <h3 className="font-heading font-bold text-gray-900 text-xl mb-6">Quick Loan Check</h3>
-
-              <div className="mb-5">
-                <label className="text-sm font-medium text-gray-700 mb-2 block">Loan Amount</label>
-                <div className="relative">
-                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 font-medium">₹</span>
-                  <input
-                    type="number"
-                    defaultValue="200000"
-                    className="w-full border border-gray-200 rounded-xl pl-8 pr-4 py-3 text-gray-900 font-semibold focus:outline-none focus:border-primary"
-                  />
-                </div>
-              </div>
-
-              <div className="mb-5">
-                <label className="text-sm font-medium text-gray-700 mb-2 block">Tenure (Months)</label>
-                <select className="w-full border border-gray-200 rounded-xl px-4 py-3 text-gray-900 focus:outline-none focus:border-primary">
-                  <option>12 Months</option>
-                  <option>24 Months</option>
-                  <option>36 Months</option>
-                  <option>48 Months</option>
-                </select>
-              </div>
-
-              <div className="bg-primary-50 rounded-xl p-4 mb-6 border border-primary/20">
-                <div className="flex justify-between items-center mb-2">
-                  <span className="text-sm text-gray-600">Monthly EMI</span>
-                  <span className="font-bold text-primary text-lg">₹18,500</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-sm text-gray-600">Interest Rate</span>
-                  <span className="font-semibold text-gray-800">10.5% p.a.</span>
-                </div>
-              </div>
-
-              <Link to="/apply" className="btn-primary w-full justify-center py-4 text-base">
-                Get This Loan Now →
-              </Link>
-
-              <p className="text-xs text-center text-gray-400 mt-3">
-                *For illustrative purposes only. Rates may vary.
-              </p>
-            </div>
+            <QuickLoanCard />
           </div>
         </div>
       </div>
