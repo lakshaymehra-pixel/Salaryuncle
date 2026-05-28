@@ -14,7 +14,7 @@ import Contact from './pages/Contact';
 import Blog from './pages/Blog';
 
 // Pages that have their own full-page layout (no Navbar/Footer)
-const STANDALONE_PATHS = ['/apply', '/dashboard'];
+const STANDALONE_PATHS = ['/dashboard'];
 
 function ScrollToTop() {
   const { pathname } = useLocation();

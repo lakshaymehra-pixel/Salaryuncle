@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 
 // ── Right side graphic ────────────────────────────────────
@@ -324,20 +324,9 @@ export default function Apply() {
   };
 
   return (
-    <div className="min-h-screen" style={{background:'linear-gradient(135deg, #b2e0e0 0%, #e0f4f4 50%, #b2e8e8 100%)'}}>
-      {/* Minimal top nav */}
-      <div className="px-6 py-4 flex items-center justify-between">
-        <Link to="/" className="flex items-center gap-2">
-          <div className="w-9 h-9 bg-primary rounded-xl flex items-center justify-center">
-            <span className="text-white font-bold font-heading text-sm">SU</span>
-          </div>
-          <span className="font-bold text-gray-900 font-heading">Salary<span className="text-primary">Uncle</span></span>
-        </Link>
-        <Link to="/" className="text-sm text-gray-600 hover:text-gray-900">← Back to Home</Link>
-      </div>
-
+    <div style={{background:'linear-gradient(135deg, #b2e0e0 0%, #e0f4f4 50%, #b2e8e8 100%)'}}>
       {/* Main content — 2 column */}
-      <div className="max-w-6xl mx-auto px-6 py-8 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center min-h-[calc(100vh-80px)]">
+      <div className="max-w-6xl mx-auto px-6 py-12 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center min-h-[calc(100vh-140px)]">
 
         {/* LEFT — Form */}
         <div className="max-w-md">
