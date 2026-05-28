@@ -46,33 +46,58 @@ function QuickLoanCard() {
 
   return (
     <div className="bg-white rounded-3xl shadow-2xl p-7 w-full max-w-sm">
+      <style>{`
+        .qlc-range { -webkit-appearance:none; appearance:none; width:100%; height:6px; border-radius:9999px; outline:none; cursor:pointer; }
+        .qlc-range::-webkit-slider-thumb { -webkit-appearance:none; appearance:none; width:18px; height:18px; border-radius:50%; background:#608D4B; border:2px solid white; box-shadow:0 1px 4px rgba(0,0,0,0.2); cursor:pointer; }
+        .qlc-range::-moz-range-thumb { width:18px; height:18px; border-radius:50%; background:#608D4B; border:2px solid white; cursor:pointer; }
+      `}</style>
       <h3 className="font-heading font-bold text-gray-900 text-xl mb-5">Quick Loan Check</h3>
 
       {/* Amount slider */}
       <div className="mb-5">
-        <div className="flex justify-between mb-1.5">
+        <div className="flex justify-between items-center mb-2">
           <label className="text-sm font-medium text-gray-700">Loan Amount</label>
-          <span className="text-primary font-bold text-sm">{fmt(amount)}</span>
+          <div className="flex items-center gap-1 bg-primary/10 rounded-lg px-2 py-1">
+            <span className="text-primary text-xs font-bold">₹</span>
+            <input
+              type="number" min="10000" max="500000" step="5000"
+              value={amount}
+              onChange={e => setAmount(Math.min(500000, Math.max(10000, +e.target.value || 10000)))}
+              className="w-20 text-primary font-bold text-sm bg-transparent outline-none text-right"
+            />
+          </div>
         </div>
         <input type="range" min="10000" max="500000" step="5000" value={amount}
           onChange={e => setAmount(+e.target.value)}
-          className="w-full h-2 rounded-full appearance-none cursor-pointer accent-primary bg-gray-200"/>
+          className="qlc-range"
+          style={{background:`linear-gradient(to right, #608D4B ${((amount-10000)/(500000-10000))*100}%, #e5e7eb ${((amount-10000)/(500000-10000))*100}%)`}}
+        />
         <div className="flex justify-between text-xs text-gray-400 mt-1">
-          <span>₹10K</span><span>₹5L</span>
+          <span>₹10,000</span><span>₹5,00,000</span>
         </div>
       </div>
 
       {/* Tenure slider */}
       <div className="mb-5">
-        <div className="flex justify-between mb-1.5">
+        <div className="flex justify-between items-center mb-2">
           <label className="text-sm font-medium text-gray-700">Tenure</label>
-          <span className="text-primary font-bold text-sm">{tenure} Months</span>
+          <div className="flex items-center gap-1 bg-primary/10 rounded-lg px-2 py-1">
+            <input
+              type="number" min="3" max="60" step="3"
+              value={tenure}
+              onChange={e => setTenure(Math.min(60, Math.max(3, +e.target.value || 3)))}
+              className="w-8 text-primary font-bold text-sm bg-transparent outline-none text-right"
+            />
+            <span className="text-primary text-xs font-bold">Mo</span>
+          </div>
         </div>
         <input type="range" min="3" max="60" step="3" value={tenure}
           onChange={e => setTenure(+e.target.value)}
-          className="w-full h-2 rounded-full appearance-none cursor-pointer accent-primary bg-gray-200"/>
+          className="qlc-range"
+          style={{background:`linear-gradient(to right, #608D4B ${((tenure-3)/(60-3))*100}%, #e5e7eb ${((tenure-3)/(60-3))*100}%)`}}
+        />
         <div className="flex justify-between text-xs text-gray-400 mt-1">
-          <span>3 Mo</span><span>60 Mo</span>
+          <span>3 Months</span><span>60 Months</span>
         </div>
       </div>
 
