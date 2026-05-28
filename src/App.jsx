@@ -9,8 +9,12 @@ import About from './pages/About';
 import Services from './pages/Services';
 import EMICalculator from './pages/EMICalculator';
 import Apply from './pages/Apply';
+import Dashboard from './pages/Dashboard';
 import Contact from './pages/Contact';
 import Blog from './pages/Blog';
+
+// Pages that have their own full-page layout (no Navbar/Footer)
+const STANDALONE_PATHS = ['/apply', '/dashboard'];
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -20,10 +24,35 @@ function ScrollToTop() {
   return null;
 }
 
+function Layout() {
+  const { pathname } = useLocation();
+  const isStandalone = STANDALONE_PATHS.some(p => pathname.startsWith(p));
+
+  return (
+    <>
+      <ScrollToTop />
+      {!isStandalone && <Navbar />}
+      <main className={isStandalone ? '' : 'flex-1'}>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/services" element={<Services />} />
+          <Route path="/emi-calculator" element={<EMICalculator />} />
+          <Route path="/apply" element={<Apply />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/blog" element={<Blog />} />
+        </Routes>
+      </main>
+      {!isStandalone && <Footer />}
+      {!isStandalone && <WhatsAppButton />}
+    </>
+  );
+}
+
 export default function App() {
   return (
     <BrowserRouter>
-      <ScrollToTop />
       <Toaster
         position="top-center"
         toastOptions={{
@@ -33,20 +62,7 @@ export default function App() {
         }}
       />
       <div className="min-h-screen flex flex-col">
-        <Navbar />
-        <main className="flex-1">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/services" element={<Services />} />
-            <Route path="/emi-calculator" element={<EMICalculator />} />
-            <Route path="/apply" element={<Apply />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/blog" element={<Blog />} />
-          </Routes>
-        </main>
-        <Footer />
-        <WhatsAppButton />
+        <Layout />
       </div>
     </BrowserRouter>
   );
