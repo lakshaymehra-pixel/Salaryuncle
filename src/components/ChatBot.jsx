@@ -9,83 +9,98 @@ const QUICK_REPLIES = [
   'Interest rates?',
 ];
 
-// Business person SVG avatar — suit, tie, briefcase (fully inside circle)
+// Flat-style business man — suit, tie, briefcase
 function MyraAvatar({ size = 32 }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg width={size} height={size} viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
       <defs>
-        <linearGradient id="avatarGrad" x1="0" y1="0" x2="80" y2="80">
-          <stop offset="0%" stopColor="#0d9488"/>
-          <stop offset="100%" stopColor="#065f46"/>
+        <linearGradient id="bg2" x1="0" y1="0" x2="100" y2="100">
+          <stop offset="0%" stopColor="#e0f2fe"/>
+          <stop offset="100%" stopColor="#bae6fd"/>
         </linearGradient>
-        <clipPath id="circleClip">
-          <circle cx="40" cy="40" r="40"/>
-        </clipPath>
+        <clipPath id="cc"><circle cx="50" cy="50" r="50"/></clipPath>
       </defs>
 
-      {/* Background */}
-      <circle cx="40" cy="40" r="40" fill="url(#avatarGrad)"/>
+      {/* BG */}
+      <circle cx="50" cy="50" r="50" fill="url(#bg2)"/>
+      <g clipPath="url(#cc)">
 
-      <g clipPath="url(#circleClip)">
-        {/* HEAD */}
-        <circle cx="40" cy="22" r="10" fill="#f5c07a"/>
-        {/* Hair */}
-        <path d="M30 20 Q31 11 40 11 Q49 11 50 20 Q47 15 40 16 Q33 15 30 20Z" fill="#2d1b00"/>
-        {/* Ears */}
-        <ellipse cx="30" cy="22" rx="2" ry="2.5" fill="#f5c07a"/>
-        <ellipse cx="50" cy="22" rx="2" ry="2.5" fill="#f5c07a"/>
-        {/* Eyes */}
-        <circle cx="36.5" cy="21" r="1.8" fill="#1a0a00"/>
-        <circle cx="43.5" cy="21" r="1.8" fill="#1a0a00"/>
-        <circle cx="37" cy="20.3" r="0.7" fill="white"/>
-        <circle cx="44" cy="20.3" r="0.7" fill="white"/>
-        {/* Eyebrows */}
-        <path d="M34 18 Q36.5 16.5 39 18" stroke="#2d1b00" strokeWidth="1.2" fill="none" strokeLinecap="round"/>
-        <path d="M41 18 Q43.5 16.5 46 18" stroke="#2d1b00" strokeWidth="1.2" fill="none" strokeLinecap="round"/>
-        {/* Nose */}
-        <path d="M39 24 Q40 26 41 24" stroke="#c8884a" strokeWidth="1" fill="none"/>
-        {/* Smile */}
-        <path d="M36 27 Q40 30 44 27" stroke="#c8884a" strokeWidth="1.3" fill="none" strokeLinecap="round"/>
-
-        {/* NECK */}
-        <rect x="37" y="31" width="6" height="5" rx="2" fill="#f5c07a"/>
-
-        {/* SUIT BODY */}
-        <path d="M22 72 Q22 48 27 44 L36 40 L40 46 L44 40 L53 44 Q58 48 58 72Z" fill="#1e3a5f"/>
-        {/* White shirt center */}
-        <path d="M36 40 L40 46 L44 40 L43 72 L37 72Z" fill="white"/>
-        {/* Tie */}
-        <path d="M40 42 L38.5 47 L40 52 L41.5 47Z" fill="#dc2626"/>
-        <path d="M38.5 47 L39.5 44 L40.5 44 L41.5 47Z" fill="#b91c1c"/>
-        {/* Left lapel */}
-        <path d="M36 40 L27 44 L32 46 L36 41Z" fill="#152d4a"/>
-        {/* Right lapel */}
-        <path d="M44 40 L53 44 L48 46 L44 41Z" fill="#152d4a"/>
-
-        {/* LEFT ARM — down */}
-        <path d="M22 50 Q17 54 16 62 L21 63 Q22 56 26 52Z" fill="#1e3a5f"/>
-        <ellipse cx="18" cy="64" rx="3.5" ry="3" fill="#f5c07a"/>
-
-        {/* RIGHT ARM — bent, holding briefcase */}
-        <path d="M58 50 Q62 53 63 58 L58 60 Q57 55 53 52Z" fill="#1e3a5f"/>
-        <ellipse cx="61" cy="61" rx="3.5" ry="3" fill="#f5c07a"/>
-
-        {/* BRIEFCASE — fully inside */}
-        <rect x="54" y="60" width="14" height="11" rx="2.5" fill="#92400e"/>
-        <rect x="54" y="60" width="14" height="11" rx="2.5" stroke="#78350f" strokeWidth="1"/>
-        {/* Handle */}
-        <path d="M57.5 60 Q57.5 56 61 56 Q64.5 56 64.5 60" stroke="#78350f" strokeWidth="1.8" fill="none" strokeLinecap="round"/>
-        {/* Latch */}
-        <rect x="59.5" y="64" width="5" height="3" rx="1" fill="#fbbf24"/>
-        {/* Middle line */}
-        <line x1="54" y1="65.5" x2="68" y2="65.5" stroke="#78350f" strokeWidth="0.8"/>
-
-        {/* LEGS */}
-        <path d="M30 72 L28 82 L34 82 L36 72Z" fill="#152d4a"/>
-        <path d="M50 72 L52 82 L46 82 L44 72Z" fill="#152d4a"/>
+        {/* ── LEGS ── */}
+        <rect x="34" y="68" width="12" height="22" rx="4" fill="#1e40af"/>
+        <rect x="54" y="68" width="12" height="22" rx="4" fill="#1e40af"/>
         {/* Shoes */}
-        <ellipse cx="31" cy="82" rx="5" ry="2.5" fill="#111827"/>
-        <ellipse cx="49" cy="82" rx="5" ry="2.5" fill="#111827"/>
+        <rect x="30" y="86" width="18" height="7" rx="3.5" fill="#1e293b"/>
+        <rect x="52" y="86" width="18" height="7" rx="3.5" fill="#1e293b"/>
+
+        {/* ── SUIT BODY ── */}
+        <rect x="28" y="42" width="44" height="30" rx="8" fill="#1e40af"/>
+        {/* Shirt */}
+        <rect x="42" y="42" width="16" height="30" fill="white"/>
+        {/* Tie */}
+        <polygon points="50,46 48,54 50,60 52,54" fill="#dc2626"/>
+        <rect x="48.5" y="44" width="3" height="4" rx="1" fill="#b91c1c"/>
+        {/* Left lapel */}
+        <polygon points="42,42 28,48 36,52 42,46" fill="#1d3a9e"/>
+        {/* Right lapel */}
+        <polygon points="58,42 72,48 64,52 58,46" fill="#1d3a9e"/>
+        {/* Suit button */}
+        <circle cx="50" cy="65" r="1.5" fill="#e2e8f0"/>
+
+        {/* ── LEFT ARM ── */}
+        <rect x="14" y="43" width="14" height="10" rx="5" fill="#1e40af"/>
+        {/* Left hand */}
+        <circle cx="14" cy="53" r="5" fill="#fbbf7c"/>
+
+        {/* ── RIGHT ARM — holding briefcase ── */}
+        <rect x="72" y="43" width="14" height="10" rx="5" fill="#1e40af"/>
+        {/* Right hand */}
+        <circle cx="86" cy="53" r="5" fill="#fbbf7c"/>
+
+        {/* ── BRIEFCASE ── */}
+        <rect x="75" y="54" width="20" height="15" rx="3" fill="#92400e"/>
+        <rect x="75" y="54" width="20" height="15" rx="3" stroke="#78350f" strokeWidth="1"/>
+        {/* Handle */}
+        <path d="M79 54 Q79 49 85 49 Q91 49 91 54" stroke="#78350f" strokeWidth="2" fill="none" strokeLinecap="round"/>
+        {/* Clasp */}
+        <rect x="83" y="60" width="6" height="3.5" rx="1.5" fill="#fbbf24"/>
+        {/* Middle line */}
+        <line x1="75" y1="61.5" x2="95" y2="61.5" stroke="#78350f" strokeWidth="0.8"/>
+
+        {/* ── NECK ── */}
+        <rect x="45" y="35" width="10" height="9" rx="4" fill="#fbbf7c"/>
+
+        {/* ── HEAD ── */}
+        <circle cx="50" cy="24" r="14" fill="#fbbf7c"/>
+        {/* Hair — dark short */}
+        <path d="M36 22 Q37 10 50 9 Q63 10 64 22 Q60 14 50 15 Q40 14 36 22Z" fill="#1c0a00"/>
+        {/* Side burns */}
+        <rect x="36" y="20" width="3" height="8" rx="1.5" fill="#1c0a00"/>
+        <rect x="61" y="20" width="3" height="8" rx="1.5" fill="#1c0a00"/>
+        {/* Ears */}
+        <ellipse cx="36" cy="25" rx="2.5" ry="3" fill="#f0a860"/>
+        <ellipse cx="64" cy="25" rx="2.5" ry="3" fill="#f0a860"/>
+
+        {/* Eyes */}
+        <ellipse cx="44" cy="24" rx="3" ry="3.2" fill="white"/>
+        <ellipse cx="56" cy="24" rx="3" ry="3.2" fill="white"/>
+        <circle cx="44.5" cy="24.5" r="1.8" fill="#1c0a00"/>
+        <circle cx="56.5" cy="24.5" r="1.8" fill="#1c0a00"/>
+        <circle cx="45" cy="23.5" r="0.7" fill="white"/>
+        <circle cx="57" cy="23.5" r="0.7" fill="white"/>
+
+        {/* Eyebrows */}
+        <path d="M41 20 Q44 18 47 20" stroke="#1c0a00" strokeWidth="1.5" fill="none" strokeLinecap="round"/>
+        <path d="M53 20 Q56 18 59 20" stroke="#1c0a00" strokeWidth="1.5" fill="none" strokeLinecap="round"/>
+
+        {/* Nose */}
+        <circle cx="50" cy="28" r="1.2" fill="#e0955a"/>
+
+        {/* Smile */}
+        <path d="M44 32 Q50 37 56 32" stroke="#c2703a" strokeWidth="1.5" fill="none" strokeLinecap="round"/>
+
+        {/* Cheeks */}
+        <ellipse cx="40" cy="30" rx="4" ry="2.5" fill="#f87171" opacity="0.3"/>
+        <ellipse cx="60" cy="30" rx="4" ry="2.5" fill="#f87171" opacity="0.3"/>
       </g>
     </svg>
   );
