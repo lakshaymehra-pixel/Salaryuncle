@@ -454,6 +454,7 @@ function StepModal({ stepId, onClose, onComplete }) {
         {[
           {name:'empType',    label:'Employment Type',  select:['Salaried - Private','Salaried - Government','Salaried - PSU']},
           {name:'company',    label:'Company Name',     ph:'Tata Consultancy Services'},
+          {name:'companyEmail',label:'Company Email ID', ph:'rajesh@company.com', type:'email'},
           {name:'designation',label:'Designation',      ph:'Software Engineer'},
           {name:'salary',     label:'Net Monthly Salary (₹)', ph:'50000', type:'number'},
           {name:'bankName',   label:'Bank Name',        select:['SBI','HDFC Bank','ICICI Bank','Axis Bank','Kotak Bank','Other']},
