@@ -214,15 +214,15 @@ function StepModal({ stepId, onClose, onComplete }) {
   const inp = 'w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10';
   const sel = 'w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-primary bg-white';
 
-  // Fake Aadhaar verify — auto-fills all fields like real Aadhaar API
+  // Fake Aadhaar verify — uses whatever name user typed
   const verifyAadhaar = async () => {
     if (!form.aadhaar || form.aadhaar.replace(/\s/g,'').length !== 12) return;
+    if (!form.fullName || !form.fullName.trim()) return;
     setAadhaarVerifying(true);
     await new Promise(r => setTimeout(r, 1800));
-    const fetched = form.fullName && form.fullName.trim() ? form.fullName.trim().toUpperCase() : 'LAKSHAY MEHRA';
     setForm(p => ({
       ...p,
-      fullName:  fetched,
+      fullName:  p.fullName.trim().toUpperCase(),
       gender:    p.gender    || 'Male',
       marital:   p.marital   || 'Single',
       education: p.education || 'Graduate',
@@ -231,15 +231,15 @@ function StepModal({ stepId, onClose, onComplete }) {
     setAadhaarVerifying(false);
   };
 
-  // Fake PAN verify — simulates API call, auto-fills name
+  // Fake PAN verify — uses whatever name user typed in panName field
   const verifyPAN = async () => {
     if (!form.pan || form.pan.length !== 10) return;
+    if (!form.panName || !form.panName.trim()) return;
     setPanVerifying(true);
     await new Promise(r => setTimeout(r, 1800));
-    // Use name already typed by user, or fallback demo name
-    const fetched = form.panName && form.panName.trim() ? form.panName.trim().toUpperCase() : 'LAKSHAY MEHRA';
-    set('panName', fetched);
-    set('fullName', fetched);
+    const name = form.panName.trim().toUpperCase();
+    set('panName', name);
+    set('fullName', name);
     setPanVerified(true);
     setPanVerifying(false);
   };
@@ -274,7 +274,7 @@ function StepModal({ stepId, onClose, onComplete }) {
               style={{textTransform:'uppercase'}}
               className={inp + ' flex-1'} />
             <button type="button" onClick={verifyPAN}
-              disabled={!form.pan || form.pan.length!==10 || panVerifying || panVerified}
+              disabled={!form.pan || form.pan.length!==10 || !form.panName?.trim() || panVerifying || panVerified}
               className="px-4 py-3 rounded-xl text-white text-sm font-semibold flex-shrink-0 disabled:opacity-40 transition-all"
               style={{background: panVerified ? '#16a34a' : 'linear-gradient(135deg,#29b6d4,#1976d2)'}}>
               {panVerifying ? (
@@ -285,7 +285,7 @@ function StepModal({ stepId, onClose, onComplete }) {
               ) : panVerified ? '✓ Done' : 'Verify'}
             </button>
           </div>
-          <p className="text-xs text-gray-400 mt-1">Enter 10-digit PAN number and click Verify.</p>
+          <p className="text-xs text-gray-400 mt-1">Fill your name below first, then click Verify.</p>
         </div>
 
         {/* Auto-fetched name */}
@@ -339,7 +339,7 @@ function StepModal({ stepId, onClose, onComplete }) {
               placeholder="1234 5678 9012" maxLength={12}
               className={inp + ' flex-1'} />
             <button type="button" onClick={verifyAadhaar}
-              disabled={!form.aadhaar || form.aadhaar.length!==12 || aadhaarVerifying || aadhaarVerified}
+              disabled={!form.aadhaar || form.aadhaar.length!==12 || !form.fullName?.trim() || aadhaarVerifying || aadhaarVerified}
               className="px-4 py-3 rounded-xl text-white text-sm font-semibold flex-shrink-0 disabled:opacity-40 transition-all"
               style={{background: aadhaarVerified ? '#16a34a' : 'linear-gradient(135deg,#29b6d4,#1976d2)'}}>
               {aadhaarVerifying ? (
@@ -350,7 +350,7 @@ function StepModal({ stepId, onClose, onComplete }) {
               ) : aadhaarVerified ? '✓ Done' : 'Verify'}
             </button>
           </div>
-          <p className="text-xs text-gray-400 mt-1">Enter 12-digit Aadhaar number and click Verify.</p>
+          <p className="text-xs text-gray-400 mt-1">Fill your name below first, then click Verify.</p>
         </div>
 
         {/* Auto-fetched name */}
