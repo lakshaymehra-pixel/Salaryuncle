@@ -424,7 +424,7 @@ function StepModal({ stepId, onClose, onComplete }) {
           {name:'city',    label:'City', ph:'New Delhi'},
           {name:'state',   label:'State', select:['Delhi','Maharashtra','Karnataka','Tamil Nadu','Uttar Pradesh','Gujarat','Rajasthan','Others']},
           {name:'pincode', label:'PIN Code', ph:'110001'},
-          {name:'addrType',label:'Residence Type', select:['Owned','Rented','Company Provided','Living with Parents']},
+          {name:'addrType',label:'Residence Type', select:['Owned','Rented']},
         ].map(f => (
           <div key={f.name}>
             <label className="block text-sm font-semibold text-gray-700 mb-1.5">{f.label} *</label>
