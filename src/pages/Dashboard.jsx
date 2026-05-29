@@ -214,24 +214,18 @@ function StepModal({ stepId, onClose, onComplete }) {
   const inp = 'w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10';
   const sel = 'w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-primary bg-white';
 
-  // Fake Aadhaar verify — uses whatever name user typed
+  // Aadhaar verify — only confirms the name user typed, nothing more
   const verifyAadhaar = async () => {
     if (!form.aadhaar || form.aadhaar.replace(/\s/g,'').length !== 12) return;
     if (!form.fullName || !form.fullName.trim()) return;
     setAadhaarVerifying(true);
     await new Promise(r => setTimeout(r, 1800));
-    setForm(p => ({
-      ...p,
-      fullName:  p.fullName.trim().toUpperCase(),
-      gender:    p.gender    || 'Male',
-      marital:   p.marital   || 'Single',
-      education: p.education || 'Graduate',
-    }));
+    set('fullName', form.fullName.trim().toUpperCase());
     setAadhaarVerified(true);
     setAadhaarVerifying(false);
   };
 
-  // Fake PAN verify — uses whatever name user typed in panName field
+  // PAN verify — only confirms the name user typed, nothing more
   const verifyPAN = async () => {
     if (!form.pan || form.pan.length !== 10) return;
     if (!form.panName || !form.panName.trim()) return;
@@ -373,7 +367,7 @@ function StepModal({ stepId, onClose, onComplete }) {
           {name:'marital',  label:'Marital Status', select:['Single','Married','Divorced']},
           {name:'education',label:'Education', select:['10th/12th','Graduate','Post Graduate','Others']},
         ].map(f => {
-          const autoFilled = aadhaarVerified && ['fullName','gender','marital','education'].includes(f.name);
+          const autoFilled = aadhaarVerified && f.name === 'fullName';
           const greenCls = autoFilled ? ' border-green-300 bg-green-50/60 text-green-900 font-semibold' : '';
           return (
             <div key={f.name}>
