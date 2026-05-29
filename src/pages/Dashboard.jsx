@@ -212,15 +212,15 @@ function StepModal({ stepId, onClose, onComplete }) {
   const inp = 'w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10';
   const sel = 'w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-primary bg-white';
 
-  // Fake PAN verify — simulates API call, extracts name from PAN format
+  // Fake PAN verify — simulates API call, auto-fills name
   const verifyPAN = async () => {
-    if (!form.pan || form.pan.length !== 10 || !panDoc) return;
+    if (!form.pan || form.pan.length !== 10) return;
     setPanVerifying(true);
     await new Promise(r => setTimeout(r, 1800));
-    // Simulate name fetch: in production this would call NSDL/Karza API
-    const fakeName = form.panName || 'LAKSHAY MEHRA';
-    set('panName', fakeName.toUpperCase());
-    set('fullName', fakeName.toUpperCase());
+    // Use name already typed by user, or fallback demo name
+    const fetched = form.panName && form.panName.trim() ? form.panName.trim().toUpperCase() : 'LAKSHAY MEHRA';
+    set('panName', fetched);
+    set('fullName', fetched);
     setPanVerified(true);
     setPanVerifying(false);
   };
@@ -255,18 +255,18 @@ function StepModal({ stepId, onClose, onComplete }) {
               style={{textTransform:'uppercase'}}
               className={inp + ' flex-1'} />
             <button type="button" onClick={verifyPAN}
-              disabled={!form.pan || form.pan.length!==10 || !panDoc || panVerifying || panVerified}
-              className="px-4 py-3 rounded-xl text-white text-sm font-semibold flex-shrink-0 disabled:opacity-50 transition-all"
-              style={{background:'linear-gradient(135deg,#29b6d4,#1976d2)'}}>
+              disabled={!form.pan || form.pan.length!==10 || panVerifying || panVerified}
+              className="px-4 py-3 rounded-xl text-white text-sm font-semibold flex-shrink-0 disabled:opacity-40 transition-all"
+              style={{background: panVerified ? '#16a34a' : 'linear-gradient(135deg,#29b6d4,#1976d2)'}}>
               {panVerifying ? (
                 <span className="flex items-center gap-1.5">
                   <svg className="animate-spin w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10" strokeOpacity="0.25"/><path d="M12 2a10 10 0 0110 10" strokeLinecap="round"/></svg>
                   Verifying
                 </span>
-              ) : panVerified ? '✓ Verified' : 'Verify'}
+              ) : panVerified ? '✓ Done' : 'Verify'}
             </button>
           </div>
-          <p className="text-xs text-gray-400 mt-1">Upload PAN image first, then enter number to verify.</p>
+          <p className="text-xs text-gray-400 mt-1">Enter 10-digit PAN number and click Verify.</p>
         </div>
 
         {/* Auto-fetched name */}
@@ -285,12 +285,11 @@ function StepModal({ stepId, onClose, onComplete }) {
         <div>
           <label className="block text-sm font-semibold text-gray-700 mb-1.5">
             Full Name (as per PAN) *
-            {panVerified && <span className="ml-2 text-xs text-green-600 font-normal">Auto-filled from PAN</span>}
+            {panVerified && <span className="ml-2 text-xs text-green-600 font-normal">✓ Auto-filled — you can edit if needed</span>}
           </label>
           <input name="panName" value={form.panName||''} onChange={update}
-            placeholder="Will be auto-filled after verification" required
-            readOnly={panVerified}
-            className={inp + (panVerified ? ' bg-green-50 text-green-800 font-semibold' : '')} />
+            placeholder="Enter or verify PAN to auto-fill" required
+            className={inp + (panVerified ? ' border-green-300 bg-green-50/50 text-green-900 font-semibold' : '')} />
         </div>
 
         <div>
