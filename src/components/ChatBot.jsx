@@ -9,73 +9,84 @@ const QUICK_REPLIES = [
   'Interest rates?',
 ];
 
-// Business person SVG avatar — suit, tie, briefcase
+// Business person SVG avatar — suit, tie, briefcase (fully inside circle)
 function MyraAvatar({ size = 32 }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-      {/* Background circle */}
-      <circle cx="32" cy="32" r="32" fill="url(#avatarGrad)"/>
+    <svg width={size} height={size} viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
       <defs>
-        <linearGradient id="avatarGrad" x1="0" y1="0" x2="64" y2="64">
+        <linearGradient id="avatarGrad" x1="0" y1="0" x2="80" y2="80">
           <stop offset="0%" stopColor="#0d9488"/>
           <stop offset="100%" stopColor="#065f46"/>
         </linearGradient>
+        <clipPath id="circleClip">
+          <circle cx="40" cy="40" r="40"/>
+        </clipPath>
       </defs>
 
-      {/* Head */}
-      <circle cx="32" cy="18" r="9" fill="#FBBF7C"/>
-      {/* Hair */}
-      <path d="M23 16 Q24 9 32 9 Q40 9 41 16 Q38 12 32 13 Q26 12 23 16Z" fill="#1a0a00"/>
+      {/* Background */}
+      <circle cx="40" cy="40" r="40" fill="url(#avatarGrad)"/>
 
-      {/* Neck */}
-      <rect x="29" y="26" width="6" height="5" rx="2" fill="#FBBF7C"/>
+      <g clipPath="url(#circleClip)">
+        {/* HEAD */}
+        <circle cx="40" cy="22" r="10" fill="#f5c07a"/>
+        {/* Hair */}
+        <path d="M30 20 Q31 11 40 11 Q49 11 50 20 Q47 15 40 16 Q33 15 30 20Z" fill="#2d1b00"/>
+        {/* Ears */}
+        <ellipse cx="30" cy="22" rx="2" ry="2.5" fill="#f5c07a"/>
+        <ellipse cx="50" cy="22" rx="2" ry="2.5" fill="#f5c07a"/>
+        {/* Eyes */}
+        <circle cx="36.5" cy="21" r="1.8" fill="#1a0a00"/>
+        <circle cx="43.5" cy="21" r="1.8" fill="#1a0a00"/>
+        <circle cx="37" cy="20.3" r="0.7" fill="white"/>
+        <circle cx="44" cy="20.3" r="0.7" fill="white"/>
+        {/* Eyebrows */}
+        <path d="M34 18 Q36.5 16.5 39 18" stroke="#2d1b00" strokeWidth="1.2" fill="none" strokeLinecap="round"/>
+        <path d="M41 18 Q43.5 16.5 46 18" stroke="#2d1b00" strokeWidth="1.2" fill="none" strokeLinecap="round"/>
+        {/* Nose */}
+        <path d="M39 24 Q40 26 41 24" stroke="#c8884a" strokeWidth="1" fill="none"/>
+        {/* Smile */}
+        <path d="M36 27 Q40 30 44 27" stroke="#c8884a" strokeWidth="1.3" fill="none" strokeLinecap="round"/>
 
-      {/* Suit body */}
-      <path d="M18 50 Q18 38 22 36 L29 33 L32 38 L35 33 L42 36 Q46 38 46 50Z" fill="#1e3a5f"/>
-      {/* White shirt */}
-      <path d="M29 33 L32 38 L35 33 L34 50 L30 50Z" fill="white"/>
-      {/* Tie */}
-      <path d="M32 34 L30.5 38 L32 42 L33.5 38Z" fill="#dc2626"/>
-      <path d="M30.5 38 L31.5 36 L32.5 36 L33.5 38Z" fill="#b91c1c"/>
-      {/* Suit lapels */}
-      <path d="M29 33 L22 36 L26 38 L29 34Z" fill="#152d4a"/>
-      <path d="M35 33 L42 36 L38 38 L35 34Z" fill="#152d4a"/>
+        {/* NECK */}
+        <rect x="37" y="31" width="6" height="5" rx="2" fill="#f5c07a"/>
 
-      {/* Left arm — straight down */}
-      <path d="M18 37 Q14 40 13 46 L17 47 Q18 42 21 40Z" fill="#1e3a5f"/>
-      {/* Left hand */}
-      <ellipse cx="15" cy="48" rx="3" ry="2.5" fill="#FBBF7C"/>
+        {/* SUIT BODY */}
+        <path d="M22 72 Q22 48 27 44 L36 40 L40 46 L44 40 L53 44 Q58 48 58 72Z" fill="#1e3a5f"/>
+        {/* White shirt center */}
+        <path d="M36 40 L40 46 L44 40 L43 72 L37 72Z" fill="white"/>
+        {/* Tie */}
+        <path d="M40 42 L38.5 47 L40 52 L41.5 47Z" fill="#dc2626"/>
+        <path d="M38.5 47 L39.5 44 L40.5 44 L41.5 47Z" fill="#b91c1c"/>
+        {/* Left lapel */}
+        <path d="M36 40 L27 44 L32 46 L36 41Z" fill="#152d4a"/>
+        {/* Right lapel */}
+        <path d="M44 40 L53 44 L48 46 L44 41Z" fill="#152d4a"/>
 
-      {/* Right arm — holding briefcase */}
-      <path d="M46 37 Q50 40 51 46 L47 47 Q46 42 43 40Z" fill="#1e3a5f"/>
-      {/* Right hand */}
-      <ellipse cx="49" cy="48" rx="3" ry="2.5" fill="#FBBF7C"/>
+        {/* LEFT ARM — down */}
+        <path d="M22 50 Q17 54 16 62 L21 63 Q22 56 26 52Z" fill="#1e3a5f"/>
+        <ellipse cx="18" cy="64" rx="3.5" ry="3" fill="#f5c07a"/>
 
-      {/* Briefcase */}
-      <rect x="44" y="47" width="12" height="9" rx="2" fill="#92400e"/>
-      <rect x="44" y="47" width="12" height="9" rx="2" stroke="#78350f" strokeWidth="0.8"/>
-      {/* Briefcase handle */}
-      <path d="M47 47 Q47 44 50 44 Q53 44 53 47" stroke="#78350f" strokeWidth="1.5" fill="none" strokeLinecap="round"/>
-      {/* Briefcase latch */}
-      <rect x="49" y="50" width="4" height="2.5" rx="1" fill="#fbbf24"/>
-      {/* Briefcase line */}
-      <line x1="44" y1="51.5" x2="56" y2="51.5" stroke="#78350f" strokeWidth="0.8"/>
+        {/* RIGHT ARM — bent, holding briefcase */}
+        <path d="M58 50 Q62 53 63 58 L58 60 Q57 55 53 52Z" fill="#1e3a5f"/>
+        <ellipse cx="61" cy="61" rx="3.5" ry="3" fill="#f5c07a"/>
 
-      {/* Legs */}
-      <path d="M24 50 Q23 56 23 62 L27 62 Q28 57 29 52Z" fill="#1e3a5f"/>
-      <path d="M40 50 Q41 56 41 62 L37 62 Q36 57 35 52Z" fill="#1e3a5f"/>
-      {/* Shoes */}
-      <ellipse cx="25" cy="62" rx="4" ry="2" fill="#111827"/>
-      <ellipse cx="39" cy="62" rx="4" ry="2" fill="#111827"/>
+        {/* BRIEFCASE — fully inside */}
+        <rect x="54" y="60" width="14" height="11" rx="2.5" fill="#92400e"/>
+        <rect x="54" y="60" width="14" height="11" rx="2.5" stroke="#78350f" strokeWidth="1"/>
+        {/* Handle */}
+        <path d="M57.5 60 Q57.5 56 61 56 Q64.5 56 64.5 60" stroke="#78350f" strokeWidth="1.8" fill="none" strokeLinecap="round"/>
+        {/* Latch */}
+        <rect x="59.5" y="64" width="5" height="3" rx="1" fill="#fbbf24"/>
+        {/* Middle line */}
+        <line x1="54" y1="65.5" x2="68" y2="65.5" stroke="#78350f" strokeWidth="0.8"/>
 
-      {/* Face details */}
-      <circle cx="29" cy="18" r="1.5" fill="#1a0a00"/>
-      <circle cx="35" cy="18" r="1.5" fill="#1a0a00"/>
-      <circle cx="29.5" cy="17.3" r="0.6" fill="white"/>
-      <circle cx="35.5" cy="17.3" r="0.6" fill="white"/>
-      <path d="M28 22 Q32 25 36 22" stroke="#c2855a" strokeWidth="1.2" fill="none" strokeLinecap="round"/>
-      <path d="M26.5 15 Q29 13 31.5 15" stroke="#1a0a00" strokeWidth="1.2" fill="none"/>
-      <path d="M32.5 15 Q35 13 37.5 15" stroke="#1a0a00" strokeWidth="1.2" fill="none"/>
+        {/* LEGS */}
+        <path d="M30 72 L28 82 L34 82 L36 72Z" fill="#152d4a"/>
+        <path d="M50 72 L52 82 L46 82 L44 72Z" fill="#152d4a"/>
+        {/* Shoes */}
+        <ellipse cx="31" cy="82" rx="5" ry="2.5" fill="#111827"/>
+        <ellipse cx="49" cy="82" rx="5" ry="2.5" fill="#111827"/>
+      </g>
     </svg>
   );
 }
