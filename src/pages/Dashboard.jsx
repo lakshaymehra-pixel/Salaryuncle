@@ -285,7 +285,6 @@ function StepModal({ stepId, onClose, onComplete }) {
         <div>
           <label className="block text-sm font-semibold text-gray-700 mb-1.5">
             Full Name (as per PAN) *
-            {panVerified && <span className="ml-2 text-xs text-green-600 font-normal">✓ Auto-filled — you can edit if needed</span>}
           </label>
           <input name="panName" value={form.panName||''} onChange={update}
             placeholder="Enter or verify PAN to auto-fill" required
