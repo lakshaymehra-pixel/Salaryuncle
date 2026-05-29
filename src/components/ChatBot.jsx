@@ -161,14 +161,13 @@ export default function ChatBot() {
                   </div>
                 </div>
 
-                {/* Quick replies inline — right after first bot message */}
+                {/* Quick replies inline — horizontal chips */}
                 {i === 0 && msg.role === 'assistant' && showQuick && !loading && (
                   <div className="ml-10 mb-3">
-                    <p className="text-xs text-gray-400 mb-2">Kuch puchna hai? 👇</p>
-                    <div className="flex flex-col gap-1.5">
+                    <div className="flex flex-wrap gap-2">
                       {QUICK_REPLIES.map(q => (
                         <button key={q} onClick={() => sendMessage(q)}
-                          className="text-left px-3 py-2 rounded-xl text-xs font-medium border border-teal-200 text-teal-700 bg-white hover:bg-teal-50 transition-all active:scale-95 shadow-sm">
+                          className="px-3 py-1.5 rounded-full text-xs font-semibold border border-teal-400 text-teal-700 bg-white hover:bg-teal-50 active:scale-95 transition-all shadow-sm whitespace-nowrap">
                           {q}
                         </button>
                       ))}
