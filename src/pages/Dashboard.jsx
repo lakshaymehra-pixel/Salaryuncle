@@ -214,13 +214,19 @@ function StepModal({ stepId, onClose, onComplete }) {
   const inp = 'w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10';
   const sel = 'w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-primary bg-white';
 
-  // Fake Aadhaar verify
+  // Fake Aadhaar verify — auto-fills all fields like real Aadhaar API
   const verifyAadhaar = async () => {
     if (!form.aadhaar || form.aadhaar.replace(/\s/g,'').length !== 12) return;
     setAadhaarVerifying(true);
     await new Promise(r => setTimeout(r, 1800));
     const fetched = form.fullName && form.fullName.trim() ? form.fullName.trim().toUpperCase() : 'LAKSHAY MEHRA';
-    set('fullName', fetched);
+    setForm(p => ({
+      ...p,
+      fullName:  fetched,
+      gender:    p.gender    || 'Male',
+      marital:   p.marital   || 'Single',
+      education: p.education || 'Graduate',
+    }));
     setAadhaarVerified(true);
     setAadhaarVerifying(false);
   };
@@ -369,16 +375,25 @@ function StepModal({ stepId, onClose, onComplete }) {
           {name:'gender',   label:'Gender',    select:['Male','Female','Other']},
           {name:'marital',  label:'Marital Status', select:['Single','Married','Divorced']},
           {name:'education',label:'Education', select:['10th/12th','Graduate','Post Graduate','Others']},
-        ].map(f => (
-          <div key={f.name}>
-            <label className="block text-sm font-semibold text-gray-700 mb-1.5">{f.label} *</label>
-            {f.select
-              ? <select name={f.name} value={form[f.name]||''} onChange={update} required className={sel}><option value="">Select</option>{f.select.map(o=><option key={o}>{o}</option>)}</select>
-              : <input name={f.name} type={f.type||'text'} value={form[f.name]||''} placeholder={f.ph} onChange={update} required
-                  className={inp + (f.name==='fullName' && aadhaarVerified ? ' border-green-300 bg-green-50/50 text-green-900 font-semibold' : '')}/>
-            }
-          </div>
-        ))}
+        ].map(f => {
+          const autoFilled = aadhaarVerified && ['fullName','gender','marital','education'].includes(f.name);
+          const greenCls = autoFilled ? ' border-green-300 bg-green-50/60 text-green-900 font-semibold' : '';
+          return (
+            <div key={f.name}>
+              <label className="block text-sm font-semibold text-gray-700 mb-1.5">
+                {f.label} *
+                {autoFilled && <span className="ml-2 text-xs font-normal text-green-600">✓ Fetched from Aadhaar</span>}
+              </label>
+              {f.select
+                ? <select name={f.name} value={form[f.name]||''} onChange={update} required className={sel + greenCls}>
+                    <option value="">Select</option>
+                    {f.select.map(o=><option key={o}>{o}</option>)}
+                  </select>
+                : <input name={f.name} type={f.type||'text'} value={form[f.name]||''} placeholder={f.ph} onChange={update} required className={inp + greenCls}/>
+              }
+            </div>
+          );
+        })}
         <button type="submit" disabled={!aadhaarF || !aadhaarB || !aadhaarVerified}
           className="w-full py-3.5 rounded-xl text-white font-semibold disabled:opacity-50"
           style={{background:'linear-gradient(135deg,#29b6d4,#1976d2)'}}>
