@@ -325,9 +325,6 @@ function StepModal({ stepId, onClose, onComplete }) {
 
     personal: (
       <form onSubmit={handleSubmit} className="space-y-4">
-        <div className="bg-blue-50 border border-blue-100 rounded-xl p-3 text-xs text-blue-700 font-medium">
-          📋 Upload Aadhaar for address &amp; identity verification
-        </div>
         <FileUpload label="Aadhaar Card — Front" hint="JPG, PNG or PDF • Max 5MB"
           file={aadhaarF} onFile={setAadhaarF} />
         <FileUpload label="Aadhaar Card — Back" hint="JPG, PNG or PDF • Max 5MB"
