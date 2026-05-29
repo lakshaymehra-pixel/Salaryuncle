@@ -159,105 +159,246 @@ function ProfileRegistration({ onCardClick, completedSteps }) {
   );
 }
 
+// ── File Upload Box ───────────────────────────────────────
+function FileUpload({ label, hint, file, onFile, accept = 'image/*,.pdf' }) {
+  return (
+    <div>
+      <label className="block text-sm font-semibold text-gray-700 mb-1.5">{label} *</label>
+      {file ? (
+        <div className="flex items-center gap-3 bg-green-50 border border-green-200 rounded-xl px-4 py-3">
+          <div className="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
+            {file.type.startsWith('image/') ? (
+              <img src={URL.createObjectURL(file)} alt="" className="w-8 h-8 rounded-lg object-cover"/>
+            ) : (
+              <svg viewBox="0 0 24 24" className="w-5 h-5 text-green-600" fill="none" stroke="currentColor" strokeWidth="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            )}
+          </div>
+          <div className="flex-1 min-w-0">
+            <p className="text-sm font-semibold text-green-700 truncate">{file.name}</p>
+            <p className="text-xs text-green-500">{(file.size/1024).toFixed(0)} KB — Uploaded ✓</p>
+          </div>
+          <button type="button" onClick={() => onFile(null)}
+            className="w-6 h-6 bg-red-100 text-red-500 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 hover:bg-red-200">✕</button>
+        </div>
+      ) : (
+        <label className="cursor-pointer block">
+          <div className="border-2 border-dashed border-gray-200 rounded-xl px-4 py-5 text-center hover:border-primary hover:bg-primary/5 transition-all">
+            <svg viewBox="0 0 24 24" className="w-8 h-8 text-gray-300 mx-auto mb-2" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            <p className="text-sm font-semibold text-gray-500">Click to upload</p>
+            <p className="text-xs text-gray-400 mt-1">{hint}</p>
+          </div>
+          <input type="file" accept={accept} className="hidden" onChange={e => onFile(e.target.files[0] || null)} />
+        </label>
+      )}
+    </div>
+  );
+}
+
 // ── Step Modals / Forms ───────────────────────────────────
 function StepModal({ stepId, onClose, onComplete }) {
   const [form, setForm] = useState({});
-  const update = e => setForm({...form, [e.target.name]: e.target.value});
-  const [selfie, setSelfie] = useState(null);
+  const [panVerifying, setPanVerifying] = useState(false);
+  const [panVerified, setPanVerified] = useState(false);
+  const [panDoc, setPanDoc]         = useState(null);
+  const [aadhaarF, setAadhaarF]     = useState(null);
+  const [aadhaarB, setAadhaarB]     = useState(null);
+  const [salarySlip, setSalarySlip] = useState(null);
+  const [bankStmt, setBankStmt]     = useState(null);
+  const [selfie, setSelfie]         = useState(null);
 
-  const handleSubmit = e => { e.preventDefault(); onComplete(stepId, form); onClose(); };
+  const set = (k, v) => setForm(p => ({...p, [k]: v}));
+  const update = e => set(e.target.name, e.target.value);
+
+  const inp = 'w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10';
+  const sel = 'w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-primary bg-white';
+
+  // Fake PAN verify — simulates API call, extracts name from PAN format
+  const verifyPAN = async () => {
+    if (!form.pan || form.pan.length !== 10 || !panDoc) return;
+    setPanVerifying(true);
+    await new Promise(r => setTimeout(r, 1800));
+    // Simulate name fetch: in production this would call NSDL/Karza API
+    const fakeName = form.panName || 'LAKSHAY MEHRA';
+    set('panName', fakeName.toUpperCase());
+    set('fullName', fakeName.toUpperCase());
+    setPanVerified(true);
+    setPanVerifying(false);
+  };
+
+  const handleSubmit = e => {
+    e.preventDefault();
+    onComplete(stepId, form);
+    onClose();
+  };
+
+  const titles = {
+    pan: 'PAN Authentication',
+    personal: 'Personal Information',
+    address: 'Current Residence Address',
+    income: 'Income Details',
+    selfie: 'Selfie Upload',
+  };
 
   const content = {
     pan: (
       <form onSubmit={handleSubmit} className="space-y-4">
+        {/* Upload PAN image */}
+        <FileUpload label="Upload PAN Card" hint="JPG, PNG or PDF • Max 5MB"
+          file={panDoc} onFile={setPanDoc} />
+
+        {/* PAN number */}
         <div>
           <label className="block text-sm font-semibold text-gray-700 mb-1.5">PAN Card Number *</label>
-          <input name="pan" onChange={update} placeholder="ABCDE1234F" required maxLength={10}
-            style={{textTransform:'uppercase'}}
-            className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10" />
-          <p className="text-xs text-gray-400 mt-1">Your PAN is used for KYC and identity verification only.</p>
+          <div className="flex gap-2">
+            <input name="pan" value={form.pan||''} onChange={e => { update(e); setPanVerified(false); }}
+              placeholder="ABCDE1234F" maxLength={10}
+              style={{textTransform:'uppercase'}}
+              className={inp + ' flex-1'} />
+            <button type="button" onClick={verifyPAN}
+              disabled={!form.pan || form.pan.length!==10 || !panDoc || panVerifying || panVerified}
+              className="px-4 py-3 rounded-xl text-white text-sm font-semibold flex-shrink-0 disabled:opacity-50 transition-all"
+              style={{background:'linear-gradient(135deg,#29b6d4,#1976d2)'}}>
+              {panVerifying ? (
+                <span className="flex items-center gap-1.5">
+                  <svg className="animate-spin w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10" strokeOpacity="0.25"/><path d="M12 2a10 10 0 0110 10" strokeLinecap="round"/></svg>
+                  Verifying
+                </span>
+              ) : panVerified ? '✓ Verified' : 'Verify'}
+            </button>
+          </div>
+          <p className="text-xs text-gray-400 mt-1">Upload PAN image first, then enter number to verify.</p>
         </div>
+
+        {/* Auto-fetched name */}
+        {panVerified && (
+          <div className="bg-green-50 border border-green-200 rounded-xl px-4 py-3 flex items-center gap-3">
+            <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0">
+              <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none" stroke="white" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <div>
+              <p className="text-xs text-green-600 font-semibold">Name fetched from PAN ✓</p>
+              <p className="text-base font-bold text-green-800">{form.panName}</p>
+            </div>
+          </div>
+        )}
+
         <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-1.5">Full Name (as per PAN) *</label>
-          <input name="panName" onChange={update} placeholder="RAJESH KUMAR" required
-            className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10" />
+          <label className="block text-sm font-semibold text-gray-700 mb-1.5">
+            Full Name (as per PAN) *
+            {panVerified && <span className="ml-2 text-xs text-green-600 font-normal">Auto-filled from PAN</span>}
+          </label>
+          <input name="panName" value={form.panName||''} onChange={update}
+            placeholder="Will be auto-filled after verification" required
+            readOnly={panVerified}
+            className={inp + (panVerified ? ' bg-green-50 text-green-800 font-semibold' : '')} />
         </div>
+
         <div>
           <label className="block text-sm font-semibold text-gray-700 mb-1.5">Date of Birth *</label>
-          <input name="dob" type="date" onChange={update} required
-            className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-primary" />
+          <input name="dob" type="date" value={form.dob||''} onChange={update} required className={inp}/>
         </div>
-        <button type="submit" className="w-full py-3.5 rounded-xl text-white font-semibold"
-          style={{background:'linear-gradient(135deg,#29b6d4,#1976d2)'}}>Verify PAN →</button>
+
+        <button type="submit" disabled={!panVerified || !form.dob}
+          className="w-full py-3.5 rounded-xl text-white font-semibold disabled:opacity-50"
+          style={{background:'linear-gradient(135deg,#29b6d4,#1976d2)'}}>
+          Save & Continue →
+        </button>
       </form>
     ),
+
     personal: (
       <form onSubmit={handleSubmit} className="space-y-4">
+        <div className="bg-blue-50 border border-blue-100 rounded-xl p-3 text-xs text-blue-700 font-medium">
+          📋 Upload Aadhaar for address & identity verification
+        </div>
+        <FileUpload label="Aadhaar Card — Front" hint="JPG, PNG or PDF • Max 5MB"
+          file={aadhaarF} onFile={setAadhaarF} />
+        <FileUpload label="Aadhaar Card — Back" hint="JPG, PNG or PDF • Max 5MB"
+          file={aadhaarB} onFile={setAadhaarB} />
         {[
-          {name:'fullName',label:'Full Name',ph:'Rajesh Kumar'},
-          {name:'email',label:'Email Address',ph:'rajesh@gmail.com',type:'email'},
-          {name:'gender',label:'Gender',select:['Male','Female','Other']},
-          {name:'marital',label:'Marital Status',select:['Single','Married','Divorced']},
-          {name:'education',label:'Education',select:['10th/12th','Graduate','Post Graduate','Others']},
+          {name:'fullName', label:'Full Name', ph:'Rajesh Kumar'},
+          {name:'email',    label:'Email Address', ph:'rajesh@gmail.com', type:'email'},
+          {name:'gender',   label:'Gender',    select:['Male','Female','Other']},
+          {name:'marital',  label:'Marital Status', select:['Single','Married','Divorced']},
+          {name:'education',label:'Education', select:['10th/12th','Graduate','Post Graduate','Others']},
         ].map(f => (
           <div key={f.name}>
             <label className="block text-sm font-semibold text-gray-700 mb-1.5">{f.label} *</label>
             {f.select
-              ? <select name={f.name} onChange={update} required className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-primary bg-white"><option value="">Select</option>{f.select.map(o=><option key={o}>{o}</option>)}</select>
-              : <input name={f.name} type={f.type||'text'} placeholder={f.ph} onChange={update} required className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10" />
+              ? <select name={f.name} value={form[f.name]||''} onChange={update} required className={sel}><option value="">Select</option>{f.select.map(o=><option key={o}>{o}</option>)}</select>
+              : <input name={f.name} type={f.type||'text'} value={form[f.name]||''} placeholder={f.ph} onChange={update} required className={inp}/>
             }
           </div>
         ))}
-        <button type="submit" className="w-full py-3.5 rounded-xl text-white font-semibold"
-          style={{background:'linear-gradient(135deg,#29b6d4,#1976d2)'}}>Save & Continue →</button>
+        <button type="submit" disabled={!aadhaarF || !aadhaarB}
+          className="w-full py-3.5 rounded-xl text-white font-semibold disabled:opacity-50"
+          style={{background:'linear-gradient(135deg,#29b6d4,#1976d2)'}}>
+          Save & Continue →
+        </button>
       </form>
     ),
+
     address: (
       <form onSubmit={handleSubmit} className="space-y-4">
         {[
-          {name:'addr1',label:'Address Line 1',ph:'House No., Building Name'},
-          {name:'addr2',label:'Address Line 2',ph:'Street, Area'},
-          {name:'city',label:'City',ph:'New Delhi'},
-          {name:'state',label:'State',select:['Delhi','Maharashtra','Karnataka','Tamil Nadu','Uttar Pradesh','Gujarat','Rajasthan','Others']},
-          {name:'pincode',label:'PIN Code',ph:'110001'},
-          {name:'addrType',label:'Residence Type',select:['Owned','Rented','Company Provided','Living with Parents']},
+          {name:'addr1',   label:'Address Line 1', ph:'House No., Building Name'},
+          {name:'addr2',   label:'Address Line 2', ph:'Street, Area'},
+          {name:'city',    label:'City', ph:'New Delhi'},
+          {name:'state',   label:'State', select:['Delhi','Maharashtra','Karnataka','Tamil Nadu','Uttar Pradesh','Gujarat','Rajasthan','Others']},
+          {name:'pincode', label:'PIN Code', ph:'110001'},
+          {name:'addrType',label:'Residence Type', select:['Owned','Rented','Company Provided','Living with Parents']},
         ].map(f => (
           <div key={f.name}>
             <label className="block text-sm font-semibold text-gray-700 mb-1.5">{f.label} *</label>
             {f.select
-              ? <select name={f.name} onChange={update} required className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-primary bg-white"><option value="">Select</option>{f.select.map(o=><option key={o}>{o}</option>)}</select>
-              : <input name={f.name} placeholder={f.ph} onChange={update} required className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10" />
+              ? <select name={f.name} value={form[f.name]||''} onChange={update} required className={sel}><option value="">Select</option>{f.select.map(o=><option key={o}>{o}</option>)}</select>
+              : <input name={f.name} value={form[f.name]||''} placeholder={f.ph} onChange={update} required className={inp}/>
             }
           </div>
         ))}
-        <button type="submit" className="w-full py-3.5 rounded-xl text-white font-semibold"
-          style={{background:'linear-gradient(135deg,#29b6d4,#1976d2)'}}>Save & Continue →</button>
+        <button type="submit"
+          className="w-full py-3.5 rounded-xl text-white font-semibold"
+          style={{background:'linear-gradient(135deg,#29b6d4,#1976d2)'}}>
+          Save & Continue →
+        </button>
       </form>
     ),
+
     income: (
       <form onSubmit={handleSubmit} className="space-y-4">
+        <div className="bg-blue-50 border border-blue-100 rounded-xl p-3 text-xs text-blue-700 font-medium">
+          📂 Upload salary slip & bank statement for income verification
+        </div>
+        <FileUpload label="Latest Salary Slip (Last 3 months)" hint="JPG, PNG or PDF • Max 5MB"
+          file={salarySlip} onFile={setSalarySlip} accept="image/*,.pdf" />
+        <FileUpload label="Bank Statement (Last 6 months)" hint="PDF preferred • Max 10MB"
+          file={bankStmt} onFile={setBankStmt} accept="image/*,.pdf" />
         {[
-          {name:'empType',label:'Employment Type',select:['Salaried - Private','Salaried - Government','Salaried - PSU']},
-          {name:'company',label:'Company Name',ph:'Tata Consultancy Services'},
-          {name:'designation',label:'Designation',ph:'Software Engineer'},
-          {name:'salary',label:'Net Monthly Salary (₹)',ph:'50000',type:'number'},
-          {name:'exp',label:'Work Experience',select:['6-12 Months','1-2 Years','2-5 Years','5+ Years']},
-          {name:'bankName',label:'Bank Name',select:['SBI','HDFC Bank','ICICI Bank','Axis Bank','Kotak Bank','Other']},
-          {name:'accountNo',label:'Account Number',ph:'XXXXXXXXXX'},
-          {name:'ifsc',label:'IFSC Code',ph:'HDFC0001234'},
+          {name:'empType',    label:'Employment Type',  select:['Salaried - Private','Salaried - Government','Salaried - PSU']},
+          {name:'company',    label:'Company Name',     ph:'Tata Consultancy Services'},
+          {name:'designation',label:'Designation',      ph:'Software Engineer'},
+          {name:'salary',     label:'Net Monthly Salary (₹)', ph:'50000', type:'number'},
+          {name:'exp',        label:'Work Experience',  select:['6-12 Months','1-2 Years','2-5 Years','5+ Years']},
+          {name:'bankName',   label:'Bank Name',        select:['SBI','HDFC Bank','ICICI Bank','Axis Bank','Kotak Bank','Other']},
+          {name:'accountNo',  label:'Account Number',   ph:'XXXXXXXXXX'},
+          {name:'ifsc',       label:'IFSC Code',        ph:'HDFC0001234'},
         ].map(f => (
           <div key={f.name}>
             <label className="block text-sm font-semibold text-gray-700 mb-1.5">{f.label} *</label>
             {f.select
-              ? <select name={f.name} onChange={update} required className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-primary bg-white"><option value="">Select</option>{f.select.map(o=><option key={o}>{o}</option>)}</select>
-              : <input name={f.name} type={f.type||'text'} placeholder={f.ph} onChange={update} required className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10" />
+              ? <select name={f.name} value={form[f.name]||''} onChange={update} required className={sel}><option value="">Select</option>{f.select.map(o=><option key={o}>{o}</option>)}</select>
+              : <input name={f.name} type={f.type||'text'} value={form[f.name]||''} placeholder={f.ph} onChange={update} required className={inp}/>
             }
           </div>
         ))}
-        <button type="submit" className="w-full py-3.5 rounded-xl text-white font-semibold"
-          style={{background:'linear-gradient(135deg,#29b6d4,#1976d2)'}}>Save & Continue →</button>
+        <button type="submit" disabled={!salarySlip || !bankStmt}
+          className="w-full py-3.5 rounded-xl text-white font-semibold disabled:opacity-50"
+          style={{background:'linear-gradient(135deg,#29b6d4,#1976d2)'}}>
+          Save & Continue →
+        </button>
       </form>
     ),
+
     selfie: (
       <form onSubmit={handleSubmit} className="space-y-5">
         <div className="text-center">
@@ -272,13 +413,13 @@ function StepModal({ stepId, onClose, onComplete }) {
                 <svg viewBox="0 0 24 24" className="w-10 h-10 text-gray-300 mb-2" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>
                 <span className="text-xs text-gray-400">Upload Selfie</span>
               </div>
-              <input type="file" accept="image/*" className="hidden" onChange={e => setSelfie(e.target.files[0])} required />
+              <input type="file" accept="image/*" className="hidden" onChange={e => setSelfie(e.target.files[0]||null)} />
             </label>
           )}
-          <p className="text-xs text-gray-500 mt-3">Take a clear, front-facing selfie in good lighting.</p>
+          <p className="text-xs text-gray-500 mt-3">Clear, front-facing photo in good lighting.</p>
         </div>
         <div className="bg-blue-50 border border-blue-100 rounded-xl p-3 text-xs text-blue-700">
-          ✅ Your selfie is used for live face verification only. It is encrypted and stored securely.
+          ✅ Your selfie is used for live face verification only. Encrypted & stored securely.
         </div>
         <button type="submit" disabled={!selfie}
           className="w-full py-3.5 rounded-xl text-white font-semibold disabled:opacity-50"
@@ -287,14 +428,6 @@ function StepModal({ stepId, onClose, onComplete }) {
         </button>
       </form>
     ),
-  };
-
-  const titles = {
-    pan: 'PAN Authentication',
-    personal: 'Personal Information',
-    address: 'Current Residence Address',
-    income: 'Income Details',
-    selfie: 'Selfie Upload',
   };
 
   return (
