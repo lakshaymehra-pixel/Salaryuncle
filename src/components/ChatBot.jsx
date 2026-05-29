@@ -9,100 +9,20 @@ const QUICK_REPLIES = [
   'Interest rates?',
 ];
 
-// Flat-style business man — suit, tie, briefcase
 function MyraAvatar({ size = 32 }) {
+  // Using a reliable CDN character illustration
   return (
-    <svg width={size} height={size} viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <linearGradient id="bg2" x1="0" y1="0" x2="100" y2="100">
-          <stop offset="0%" stopColor="#e0f2fe"/>
-          <stop offset="100%" stopColor="#bae6fd"/>
-        </linearGradient>
-        <clipPath id="cc"><circle cx="50" cy="50" r="50"/></clipPath>
-      </defs>
-
-      {/* BG */}
-      <circle cx="50" cy="50" r="50" fill="url(#bg2)"/>
-      <g clipPath="url(#cc)">
-
-        {/* ── LEGS ── */}
-        <rect x="34" y="68" width="12" height="22" rx="4" fill="#1e40af"/>
-        <rect x="54" y="68" width="12" height="22" rx="4" fill="#1e40af"/>
-        {/* Shoes */}
-        <rect x="30" y="86" width="18" height="7" rx="3.5" fill="#1e293b"/>
-        <rect x="52" y="86" width="18" height="7" rx="3.5" fill="#1e293b"/>
-
-        {/* ── SUIT BODY ── */}
-        <rect x="28" y="42" width="44" height="30" rx="8" fill="#1e40af"/>
-        {/* Shirt */}
-        <rect x="42" y="42" width="16" height="30" fill="white"/>
-        {/* Tie */}
-        <polygon points="50,46 48,54 50,60 52,54" fill="#dc2626"/>
-        <rect x="48.5" y="44" width="3" height="4" rx="1" fill="#b91c1c"/>
-        {/* Left lapel */}
-        <polygon points="42,42 28,48 36,52 42,46" fill="#1d3a9e"/>
-        {/* Right lapel */}
-        <polygon points="58,42 72,48 64,52 58,46" fill="#1d3a9e"/>
-        {/* Suit button */}
-        <circle cx="50" cy="65" r="1.5" fill="#e2e8f0"/>
-
-        {/* ── LEFT ARM ── */}
-        <rect x="14" y="43" width="14" height="10" rx="5" fill="#1e40af"/>
-        {/* Left hand */}
-        <circle cx="14" cy="53" r="5" fill="#fbbf7c"/>
-
-        {/* ── RIGHT ARM — holding briefcase ── */}
-        <rect x="72" y="43" width="14" height="10" rx="5" fill="#1e40af"/>
-        {/* Right hand */}
-        <circle cx="86" cy="53" r="5" fill="#fbbf7c"/>
-
-        {/* ── BRIEFCASE ── */}
-        <rect x="75" y="54" width="20" height="15" rx="3" fill="#92400e"/>
-        <rect x="75" y="54" width="20" height="15" rx="3" stroke="#78350f" strokeWidth="1"/>
-        {/* Handle */}
-        <path d="M79 54 Q79 49 85 49 Q91 49 91 54" stroke="#78350f" strokeWidth="2" fill="none" strokeLinecap="round"/>
-        {/* Clasp */}
-        <rect x="83" y="60" width="6" height="3.5" rx="1.5" fill="#fbbf24"/>
-        {/* Middle line */}
-        <line x1="75" y1="61.5" x2="95" y2="61.5" stroke="#78350f" strokeWidth="0.8"/>
-
-        {/* ── NECK ── */}
-        <rect x="45" y="35" width="10" height="9" rx="4" fill="#fbbf7c"/>
-
-        {/* ── HEAD ── */}
-        <circle cx="50" cy="24" r="14" fill="#fbbf7c"/>
-        {/* Hair — dark short */}
-        <path d="M36 22 Q37 10 50 9 Q63 10 64 22 Q60 14 50 15 Q40 14 36 22Z" fill="#1c0a00"/>
-        {/* Side burns */}
-        <rect x="36" y="20" width="3" height="8" rx="1.5" fill="#1c0a00"/>
-        <rect x="61" y="20" width="3" height="8" rx="1.5" fill="#1c0a00"/>
-        {/* Ears */}
-        <ellipse cx="36" cy="25" rx="2.5" ry="3" fill="#f0a860"/>
-        <ellipse cx="64" cy="25" rx="2.5" ry="3" fill="#f0a860"/>
-
-        {/* Eyes */}
-        <ellipse cx="44" cy="24" rx="3" ry="3.2" fill="white"/>
-        <ellipse cx="56" cy="24" rx="3" ry="3.2" fill="white"/>
-        <circle cx="44.5" cy="24.5" r="1.8" fill="#1c0a00"/>
-        <circle cx="56.5" cy="24.5" r="1.8" fill="#1c0a00"/>
-        <circle cx="45" cy="23.5" r="0.7" fill="white"/>
-        <circle cx="57" cy="23.5" r="0.7" fill="white"/>
-
-        {/* Eyebrows */}
-        <path d="M41 20 Q44 18 47 20" stroke="#1c0a00" strokeWidth="1.5" fill="none" strokeLinecap="round"/>
-        <path d="M53 20 Q56 18 59 20" stroke="#1c0a00" strokeWidth="1.5" fill="none" strokeLinecap="round"/>
-
-        {/* Nose */}
-        <circle cx="50" cy="28" r="1.2" fill="#e0955a"/>
-
-        {/* Smile */}
-        <path d="M44 32 Q50 37 56 32" stroke="#c2703a" strokeWidth="1.5" fill="none" strokeLinecap="round"/>
-
-        {/* Cheeks */}
-        <ellipse cx="40" cy="30" rx="4" ry="2.5" fill="#f87171" opacity="0.3"/>
-        <ellipse cx="60" cy="30" rx="4" ry="2.5" fill="#f87171" opacity="0.3"/>
-      </g>
-    </svg>
+    <div style={{width: size, height: size, borderRadius: '50%', overflow: 'hidden', background: '#e0f2fe', flexShrink: 0}}>
+      <img
+        src="https://cdn-icons-png.flaticon.com/512/4140/4140047.png"
+        alt="Myra"
+        style={{width: '100%', height: '100%', objectFit: 'cover'}}
+        onError={e => {
+          e.target.style.display = 'none';
+          e.target.parentElement.innerHTML = '<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#0d9488,#065f46);color:white;font-weight:bold;font-size:' + Math.round(size*0.4) + 'px">M</div>';
+        }}
+      />
+    </div>
   );
 }
 
