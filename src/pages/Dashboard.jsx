@@ -199,6 +199,8 @@ function StepModal({ stepId, onClose, onComplete }) {
   const [form, setForm] = useState({});
   const [panVerifying, setPanVerifying] = useState(false);
   const [panVerified, setPanVerified] = useState(false);
+  const [aadhaarVerifying, setAadhaarVerifying] = useState(false);
+  const [aadhaarVerified, setAadhaarVerified] = useState(false);
   const [panDoc, setPanDoc]         = useState(null);
   const [aadhaarF, setAadhaarF]     = useState(null);
   const [aadhaarB, setAadhaarB]     = useState(null);
@@ -211,6 +213,17 @@ function StepModal({ stepId, onClose, onComplete }) {
 
   const inp = 'w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10';
   const sel = 'w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-primary bg-white';
+
+  // Fake Aadhaar verify
+  const verifyAadhaar = async () => {
+    if (!form.aadhaar || form.aadhaar.replace(/\s/g,'').length !== 12) return;
+    setAadhaarVerifying(true);
+    await new Promise(r => setTimeout(r, 1800));
+    const fetched = form.fullName && form.fullName.trim() ? form.fullName.trim().toUpperCase() : 'LAKSHAY MEHRA';
+    set('fullName', fetched);
+    setAadhaarVerified(true);
+    setAadhaarVerifying(false);
+  };
 
   // Fake PAN verify — simulates API call, auto-fills name
   const verifyPAN = async () => {
@@ -307,12 +320,49 @@ function StepModal({ stepId, onClose, onComplete }) {
     personal: (
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="bg-blue-50 border border-blue-100 rounded-xl p-3 text-xs text-blue-700 font-medium">
-          📋 Upload Aadhaar for address & identity verification
+          📋 Upload Aadhaar for address &amp; identity verification
         </div>
         <FileUpload label="Aadhaar Card — Front" hint="JPG, PNG or PDF • Max 5MB"
           file={aadhaarF} onFile={setAadhaarF} />
         <FileUpload label="Aadhaar Card — Back" hint="JPG, PNG or PDF • Max 5MB"
           file={aadhaarB} onFile={setAadhaarB} />
+
+        {/* Aadhaar number + verify */}
+        <div>
+          <label className="block text-sm font-semibold text-gray-700 mb-1.5">Aadhaar Number *</label>
+          <div className="flex gap-2">
+            <input name="aadhaar" value={form.aadhaar||''}
+              onChange={e => { set('aadhaar', e.target.value.replace(/\D/g,'').slice(0,12)); setAadhaarVerified(false); }}
+              placeholder="1234 5678 9012" maxLength={12}
+              className={inp + ' flex-1'} />
+            <button type="button" onClick={verifyAadhaar}
+              disabled={!form.aadhaar || form.aadhaar.length!==12 || aadhaarVerifying || aadhaarVerified}
+              className="px-4 py-3 rounded-xl text-white text-sm font-semibold flex-shrink-0 disabled:opacity-40 transition-all"
+              style={{background: aadhaarVerified ? '#16a34a' : 'linear-gradient(135deg,#29b6d4,#1976d2)'}}>
+              {aadhaarVerifying ? (
+                <span className="flex items-center gap-1.5">
+                  <svg className="animate-spin w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10" strokeOpacity="0.25"/><path d="M12 2a10 10 0 0110 10" strokeLinecap="round"/></svg>
+                  Verifying
+                </span>
+              ) : aadhaarVerified ? '✓ Done' : 'Verify'}
+            </button>
+          </div>
+          <p className="text-xs text-gray-400 mt-1">Enter 12-digit Aadhaar number and click Verify.</p>
+        </div>
+
+        {/* Auto-fetched name */}
+        {aadhaarVerified && (
+          <div className="bg-green-50 border border-green-200 rounded-xl px-4 py-3 flex items-center gap-3">
+            <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0">
+              <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none" stroke="white" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <div>
+              <p className="text-xs text-green-600 font-semibold">Name fetched from Aadhaar ✓</p>
+              <p className="text-base font-bold text-green-800">{form.fullName}</p>
+            </div>
+          </div>
+        )}
+
         {[
           {name:'fullName', label:'Full Name', ph:'Rajesh Kumar'},
           {name:'email',    label:'Email Address', ph:'rajesh@gmail.com', type:'email'},
@@ -324,11 +374,12 @@ function StepModal({ stepId, onClose, onComplete }) {
             <label className="block text-sm font-semibold text-gray-700 mb-1.5">{f.label} *</label>
             {f.select
               ? <select name={f.name} value={form[f.name]||''} onChange={update} required className={sel}><option value="">Select</option>{f.select.map(o=><option key={o}>{o}</option>)}</select>
-              : <input name={f.name} type={f.type||'text'} value={form[f.name]||''} placeholder={f.ph} onChange={update} required className={inp}/>
+              : <input name={f.name} type={f.type||'text'} value={form[f.name]||''} placeholder={f.ph} onChange={update} required
+                  className={inp + (f.name==='fullName' && aadhaarVerified ? ' border-green-300 bg-green-50/50 text-green-900 font-semibold' : '')}/>
             }
           </div>
         ))}
-        <button type="submit" disabled={!aadhaarF || !aadhaarB}
+        <button type="submit" disabled={!aadhaarF || !aadhaarB || !aadhaarVerified}
           className="w-full py-3.5 rounded-xl text-white font-semibold disabled:opacity-50"
           style={{background:'linear-gradient(135deg,#29b6d4,#1976d2)'}}>
           Save & Continue →
