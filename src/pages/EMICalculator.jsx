@@ -166,35 +166,6 @@ export default function EMICalculator() {
             </div>
           </div>
 
-          {/* Amortization Table */}
-          <div className="mt-12 bg-white rounded-3xl shadow-sm border border-gray-100 p-8">
-            <h3 className="text-xl font-bold font-heading text-gray-900 mb-6">Repayment Schedule</h3>
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className="bg-gray-50 rounded-xl">
-                    {['Month', 'EMI', 'Principal', 'Interest', 'Balance'].map((h) => (
-                      <th key={h} className="px-4 py-3 text-left font-semibold text-gray-700 first:rounded-l-xl last:rounded-r-xl">{h}</th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {amortization.slice(0, 12).map((row) => (
-                    <tr key={row.month} className="border-b border-gray-50 hover:bg-gray-50 transition-colors">
-                      <td className="px-4 py-3 text-gray-700">{row.month}</td>
-                      <td className="px-4 py-3 font-semibold text-gray-900">₹{Number(row.emi).toLocaleString('en-IN')}</td>
-                      <td className="px-4 py-3 text-primary">₹{Number(row.principal).toLocaleString('en-IN')}</td>
-                      <td className="px-4 py-3 text-gray-600">₹{Number(row.interest).toLocaleString('en-IN')}</td>
-                      <td className="px-4 py-3 text-gray-700">₹{Number(row.balance).toLocaleString('en-IN')}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-              {tenure > 12 && (
-                <p className="text-xs text-gray-400 text-center mt-4">Showing first 12 months. Full schedule visible after applying.</p>
-              )}
-            </div>
-          </div>
         </div>
       </section>
     </div>
