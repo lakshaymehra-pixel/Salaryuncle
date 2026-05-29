@@ -456,7 +456,6 @@ function StepModal({ stepId, onClose, onComplete }) {
           {name:'company',    label:'Company Name',     ph:'Tata Consultancy Services'},
           {name:'designation',label:'Designation',      ph:'Software Engineer'},
           {name:'salary',     label:'Net Monthly Salary (₹)', ph:'50000', type:'number'},
-          {name:'exp',        label:'Work Experience',  select:['6-12 Months','1-2 Years','2-5 Years','5+ Years']},
           {name:'bankName',   label:'Bank Name',        select:['SBI','HDFC Bank','ICICI Bank','Axis Bank','Kotak Bank','Other']},
           {name:'accountNo',  label:'Account Number',   ph:'XXXXXXXXXX'},
           {name:'ifsc',       label:'IFSC Code',        ph:'HDFC0001234'},
