@@ -4,6 +4,7 @@ import { Toaster } from 'react-hot-toast';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import WhatsAppButton from './components/WhatsAppButton';
+import ChatBot from './components/ChatBot';
 import Home from './pages/Home';
 import About from './pages/About';
 import Services from './pages/Services';
@@ -46,6 +47,7 @@ function Layout() {
       </main>
       {!isStandalone && <Footer />}
       {!isStandalone && <WhatsAppButton />}
+      {!isStandalone && <ChatBot />}
     </>
   );
 }
