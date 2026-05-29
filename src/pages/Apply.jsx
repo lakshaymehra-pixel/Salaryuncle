@@ -105,6 +105,7 @@ function MobileScreen({ onOtpSent }) {
   const [phone, setPhone] = useState('');
   const [consent, setConsent] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [showConsent, setShowConsent] = useState(false);
 
   const handleSend = async () => {
     if (phone.length !== 10 || !consent) return;
@@ -171,7 +172,19 @@ function MobileScreen({ onOtpSent }) {
         </div>
         <span className="text-white/50 text-xs leading-relaxed">
           I authorise SalaryUncle to contact me via call/SMS/WhatsApp for loan-related communication.
-          <span className="text-green-400 ml-1 cursor-pointer hover:underline">Read more</span>
+          <span className="text-green-400 ml-1 cursor-pointer hover:underline"
+            onClick={e => { e.stopPropagation(); setShowConsent(v => !v); }}>
+            {showConsent ? 'Read less' : 'Read more'}
+          </span>
+          {showConsent && (
+            <span className="block mt-2 text-white/40 leading-relaxed">
+              I give my consent for SalaryUncle to reach out to me through phone calls, text messages, WhatsApp, email, or the SalaryUncle mobile application, using the contact details I have shared. I confirm that I have carefully read and agree to the{' '}
+              <a href="/terms" className="text-green-400 hover:underline">Terms &amp; Conditions</a>
+              {' '}and{' '}
+              <a href="/privacy" className="text-green-400 hover:underline">Privacy Policy</a>
+              {' '}of SalaryUncle.
+            </span>
+          )}
         </span>
       </div>
 
