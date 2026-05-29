@@ -8,7 +8,7 @@ function RightGraphic() {
     { value: '₹5 Lakh', label: 'Max Loan Amount', color: '#0d9488', bg: '#f0fdf4', icon: (
       <svg viewBox="0 0 24 24" className="w-6 h-6" fill="none" stroke="#0d9488" strokeWidth="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
     )},
-    { value: '24 Hrs', label: 'Quick Disbursal', color: '#2563eb', bg: '#eff6ff', icon: (
+    { value: 'Quick ⚡', label: 'Quick Approval', color: '#2563eb', bg: '#eff6ff', icon: (
       <svg viewBox="0 0 24 24" className="w-6 h-6" fill="none" stroke="#2563eb" strokeWidth="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
     )},
     { value: '1.5%', label: 'Interest Per Month', color: '#7c3aed', bg: '#f5f3ff', icon: (
@@ -44,7 +44,7 @@ function RightGraphic() {
           Salary Advance Loan<br/>
           <span style={{color:'#0d9488'}}>Made Simple & Fast</span>
         </h2>
-        <p className="text-gray-500 text-sm mt-1">Get funds in your account within 24 hours</p>
+        <p className="text-gray-500 text-sm mt-1">Get funds in your account quickly</p>
       </div>
 
       {/* 4 stat cards */}

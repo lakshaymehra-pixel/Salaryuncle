@@ -244,7 +244,7 @@ function Services() {
       title: 'Education Loan',
       desc: "Fund your child's education or your own upskilling course without breaking savings.",
       amount: 'Up to ₹5 Lakhs',
-      time: '24 Hours',
+      time: 'Quick',
     },
     {
       icon: '✈️',
@@ -258,14 +258,14 @@ function Services() {
       title: 'Home Renovation',
       desc: 'Transform your home without dipping into long-term savings. Flexible EMI options.',
       amount: 'Up to ₹5 Lakhs',
-      time: '24 Hours',
+      time: 'Quick',
     },
     {
       icon: '💍',
       title: 'Wedding Loan',
       desc: 'Make your special day perfect without financial stress. Easy repayment plans.',
       amount: 'Up to ₹5 Lakhs',
-      time: '24 Hours',
+      time: 'Quick',
     },
   ];
 
@@ -599,7 +599,7 @@ function FAQ() {
     },
     {
       q: 'How quickly will the money be disbursed?',
-      a: 'For salary advance loans, disbursement happens within 2-4 hours of approval. For other loan types, it takes 4-24 hours depending on document verification.',
+      a: 'For salary advance loans, disbursement happens within 2-4 hours of approval. For other loan types, it takes quickly depending on document verification.',
     },
     {
       q: 'What is the minimum salary required to apply?',
