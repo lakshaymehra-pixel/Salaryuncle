@@ -199,8 +199,10 @@ function StepModal({ stepId, onClose, onComplete }) {
   const [form, setForm] = useState({});
   const [panVerifying, setPanVerifying] = useState(false);
   const [panVerified, setPanVerified] = useState(false);
+  const [panError, setPanError] = useState('');
   const [aadhaarVerifying, setAadhaarVerifying] = useState(false);
   const [aadhaarVerified, setAadhaarVerified] = useState(false);
+  const [aadhaarError, setAadhaarError] = useState('');
   const [panDoc, setPanDoc]         = useState(null);
   const [aadhaarF, setAadhaarF]     = useState(null);
   const [aadhaarB, setAadhaarB]     = useState(null);
@@ -214,28 +216,47 @@ function StepModal({ stepId, onClose, onComplete }) {
   const inp = 'w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10';
   const sel = 'w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-primary bg-white';
 
-  // Aadhaar verify — only confirms the name user typed, nothing more
-  const verifyAadhaar = async () => {
-    if (!form.aadhaar || form.aadhaar.replace(/\s/g,'').length !== 12) return;
-    if (!form.fullName || !form.fullName.trim()) return;
-    setAadhaarVerifying(true);
-    await new Promise(r => setTimeout(r, 1800));
-    set('fullName', form.fullName.trim().toUpperCase());
-    setAadhaarVerified(true);
-    setAadhaarVerifying(false);
-  };
+  // PAN format: 5 letters + 4 digits + 1 letter (e.g. ABCDE1234F)
+  const PAN_REGEX = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/;
+  // Aadhaar: 12 digits, first digit non-zero
+  const AADHAAR_REGEX = /^[1-9][0-9]{11}$/;
 
-  // PAN verify — only confirms the name user typed, nothing more
   const verifyPAN = async () => {
-    if (!form.pan || form.pan.length !== 10) return;
-    if (!form.panName || !form.panName.trim()) return;
+    setPanError('');
+    const pan = (form.pan || '').toUpperCase().trim();
+    if (!PAN_REGEX.test(pan)) {
+      setPanError('Invalid PAN format. Must be like ABCDE1234F.');
+      return;
+    }
+    if (!form.panName || !form.panName.trim()) {
+      setPanError('Please enter your full name as per PAN card.');
+      return;
+    }
     setPanVerifying(true);
-    await new Promise(r => setTimeout(r, 1800));
+    await new Promise(r => setTimeout(r, 1500));
     const name = form.panName.trim().toUpperCase();
     set('panName', name);
     set('fullName', name);
     setPanVerified(true);
     setPanVerifying(false);
+  };
+
+  const verifyAadhaar = async () => {
+    setAadhaarError('');
+    const aadhaar = (form.aadhaar || '').replace(/\s/g,'');
+    if (!AADHAAR_REGEX.test(aadhaar)) {
+      setAadhaarError('Invalid Aadhaar number. Must be 12 digits, starting with non-zero.');
+      return;
+    }
+    if (!form.fullName || !form.fullName.trim()) {
+      setAadhaarError('Please enter your full name as per Aadhaar card.');
+      return;
+    }
+    setAadhaarVerifying(true);
+    await new Promise(r => setTimeout(r, 1500));
+    set('fullName', form.fullName.trim().toUpperCase());
+    setAadhaarVerified(true);
+    setAadhaarVerifying(false);
   };
 
   const handleSubmit = e => {
@@ -263,7 +284,7 @@ function StepModal({ stepId, onClose, onComplete }) {
         <div>
           <label className="block text-sm font-semibold text-gray-700 mb-1.5">PAN Card Number *</label>
           <div className="flex gap-2">
-            <input name="pan" value={form.pan||''} onChange={e => { update(e); setPanVerified(false); }}
+            <input name="pan" value={form.pan||''} onChange={e => { update(e); setPanVerified(false); setPanError(''); }}
               placeholder="ABCDE1234F" maxLength={10}
               style={{textTransform:'uppercase'}}
               className={inp + ' flex-1'} />
@@ -279,7 +300,8 @@ function StepModal({ stepId, onClose, onComplete }) {
               ) : panVerified ? '✓ Done' : 'Verify'}
             </button>
           </div>
-          <p className="text-xs text-gray-400 mt-1">Fill your name below first, then click Verify.</p>
+          {panError && <p className="text-xs text-red-500 mt-1 font-medium">⚠ {panError}</p>}
+          {!panError && <p className="text-xs text-gray-400 mt-1">Enter valid PAN (e.g. ABCDE1234F) &amp; your name below, then Verify.</p>}
         </div>
 
         {/* Auto-fetched name */}
@@ -329,7 +351,7 @@ function StepModal({ stepId, onClose, onComplete }) {
           <label className="block text-sm font-semibold text-gray-700 mb-1.5">Aadhaar Number *</label>
           <div className="flex gap-2">
             <input name="aadhaar" value={form.aadhaar||''}
-              onChange={e => { set('aadhaar', e.target.value.replace(/\D/g,'').slice(0,12)); setAadhaarVerified(false); }}
+              onChange={e => { set('aadhaar', e.target.value.replace(/\D/g,'').slice(0,12)); setAadhaarVerified(false); setAadhaarError(''); }}
               placeholder="1234 5678 9012" maxLength={12}
               className={inp + ' flex-1'} />
             <button type="button" onClick={verifyAadhaar}
@@ -344,7 +366,8 @@ function StepModal({ stepId, onClose, onComplete }) {
               ) : aadhaarVerified ? '✓ Done' : 'Verify'}
             </button>
           </div>
-          <p className="text-xs text-gray-400 mt-1">Fill your name below first, then click Verify.</p>
+          {aadhaarError && <p className="text-xs text-red-500 mt-1 font-medium">⚠ {aadhaarError}</p>}
+          {!aadhaarError && <p className="text-xs text-gray-400 mt-1">Enter 12-digit Aadhaar &amp; your name below, then Verify.</p>}
         </div>
 
         {/* Auto-fetched name */}
