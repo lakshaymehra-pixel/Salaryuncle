@@ -122,7 +122,7 @@ export default function Contact() {
                         className="w-full border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:border-primary resize-none transition-colors" />
                     </div>
                     <button type="submit" className="btn-primary py-4 px-8 text-base">
-                      Send Message →
+                      Send Message
                     </button>
                   </form>
                 )}
@@ -170,7 +170,7 @@ export default function Contact() {
                 <h3 className="font-bold text-lg mb-2">Quick Answers</h3>
                 <p className="text-primary-100 text-sm mb-4">Check our FAQ for instant answers to common questions.</p>
                 <a href="/#faq" className="bg-white text-primary font-semibold text-sm px-4 py-2 rounded-lg hover:bg-gray-100 transition-colors inline-block">
-                  View FAQ →
+                  View FAQ
                 </a>
               </div>
             </div>

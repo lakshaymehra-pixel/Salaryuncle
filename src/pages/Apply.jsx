@@ -28,7 +28,7 @@ function RightPanel() {
   const stats = [
     { val: '50K+', lbl: 'Happy Customers' },
     { val: '₹200Cr+', lbl: 'Loans Disbursed' },
-    { val: '4.8★', lbl: 'App Rating' },
+    { val: '4.8/5', lbl: 'App Rating' },
     { val: '< 24h', lbl: 'Approval Time' },
   ];
   const steps = [
@@ -119,7 +119,7 @@ function MobileScreen({ onOtpSent }) {
     setLoading(true);
     await new Promise(r => setTimeout(r, 1000));
     setLoading(false);
-    toast.success(`OTP sent! Use ${FAKE_OTP} to verify`, { duration: 6000, icon: '📱' });
+    toast.success(`OTP sent! Use ${FAKE_OTP} to verify`, { duration: 6000 });
     onOtpSent(phone);
   };
 
@@ -182,7 +182,7 @@ function MobileScreen({ onOtpSent }) {
             boxShadow: phone.length === 10 ? '0 0 0 4px #608D4B20' : 'none',
           }}>
           <div className="flex items-center gap-2 px-4 bg-gray-50 border-r border-gray-200">
-            <span className="text-lg">🇮🇳</span>
+            <svg viewBox="0 0 24 24" className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
             <span className="text-sm font-bold text-gray-700">+91</span>
           </div>
           <input
@@ -245,7 +245,10 @@ function MobileScreen({ onOtpSent }) {
               style={{ color: '#608D4B' }}
               onClick={e => { e.stopPropagation(); setShowConsent(v => !v); }}
             >
-              {showConsent ? '▲ Read less' : '▼ Read more'}
+              <span className="flex items-center gap-1">
+              <svg viewBox="0 0 24 24" className={`w-3 h-3 transition-transform ${showConsent ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+              {showConsent ? 'Read less' : 'Read more'}
+            </span>
             </button>
             {showConsent && (
               <p className="text-xs text-gray-500 mt-2 leading-relaxed">
@@ -347,7 +350,7 @@ function OtpScreen({ phone, onVerified, onBack }) {
       refs[0].current?.focus();
       return;
     }
-    toast.success('✅ Verified! Setting up your account...');
+    toast.success('Verified! Setting up your account...');
     onVerified();
   };
 
@@ -513,12 +516,12 @@ export default function Apply() {
             {/* Below card */}
             <div className="flex items-center justify-center gap-6 mt-5">
               {[
-                { icon: '🔒', text: 'SSL Secured' },
-                { icon: '✅', text: 'RBI Compliant' },
-                { icon: '🏦', text: 'Safe & Trusted' },
+                { icon: <svg viewBox="0 0 24 24" className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>, text: 'SSL Secured' },
+                { icon: <svg viewBox="0 0 24 24" className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>, text: 'RBI Compliant' },
+                { icon: <svg viewBox="0 0 24 24" className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>, text: 'Safe & Trusted' },
               ].map(b => (
                 <div key={b.text} className="flex items-center gap-1.5 text-xs text-gray-400 font-medium">
-                  <span>{b.icon}</span>
+                  <span className="text-gray-400">{b.icon}</span>
                   <span>{b.text}</span>
                 </div>
               ))}

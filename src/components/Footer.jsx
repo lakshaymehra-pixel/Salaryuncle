@@ -45,7 +45,7 @@ export default function Footer() {
               ].map((link) => (
                 <li key={link.name}>
                   <Link to={link.path} className="text-sm text-gray-400 hover:text-primary transition-colors flex items-center gap-2">
-                    <span className="text-primary">→</span> {link.name}
+                    <svg viewBox="0 0 24 24" className="w-3 h-3 text-primary flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="9 18 15 12 9 6"/></svg> {link.name}
                   </Link>
                 </li>
               ))}
@@ -68,7 +68,7 @@ export default function Footer() {
               ].map((service) => (
                 <li key={service}>
                   <Link to="/services" className="text-sm text-gray-400 hover:text-primary transition-colors flex items-center gap-2">
-                    <span className="text-primary">→</span> {service}
+                    <svg viewBox="0 0 24 24" className="w-3 h-3 text-primary flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="9 18 15 12 9 6"/></svg> {service}
                   </Link>
                 </li>
               ))}

@@ -134,7 +134,7 @@ export default function Blog() {
           <div className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
             <input type="email" placeholder="Enter your email"
               className="flex-1 border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:border-primary" />
-            <button className="btn-primary whitespace-nowrap">Subscribe →</button>
+            <button className="btn-primary whitespace-nowrap">Subscribe</button>
           </div>
           <p className="text-xs text-gray-400 mt-3">No spam. Unsubscribe anytime.</p>
         </div>

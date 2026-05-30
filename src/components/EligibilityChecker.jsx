@@ -46,12 +46,12 @@ export default function EligibilityChecker() {
 
             <div className="space-y-4">
               {[
-                { icon: '✅', text: 'No hard credit check — 100% safe' },
-                { icon: '⚡', text: 'Instant result in under 1 minute' },
-                { icon: '🔒', text: 'Zero data stored for this check' },
+                { icon: <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>, text: 'No hard credit check — 100% safe' },
+                { icon: <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>, text: 'Instant result in under 1 minute' },
+                { icon: <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>, text: 'Zero data stored for this check' },
               ].map((item) => (
                 <div key={item.text} className="flex items-center gap-3 text-gray-300 text-sm">
-                  <span>{item.icon}</span> {item.text}
+                  <span className="text-primary flex-shrink-0">{item.icon}</span> {item.text}
                 </div>
               ))}
             </div>
@@ -114,7 +114,7 @@ export default function EligibilityChecker() {
                     <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-5">
                       <FiCheckCircle className="text-green-600" size={40} />
                     </div>
-                    <h3 className="text-2xl font-bold font-heading text-gray-900 mb-2">You're Eligible! 🎉</h3>
+                    <h3 className="text-2xl font-bold font-heading text-gray-900 mb-2">You're Eligible!</h3>
                     <p className="text-gray-500 text-sm mb-5">Based on your profile, you qualify for a loan up to:</p>
                     <div className="bg-primary rounded-2xl p-5 mb-6">
                       <p className="text-white/70 text-sm mb-1">Maximum Loan Amount</p>
@@ -134,10 +134,10 @@ export default function EligibilityChecker() {
                       </div>
                     </div>
                     <Link to="/apply" className="btn-primary w-full justify-center py-4 text-base mb-3">
-                      Apply Now — Get Money Today →
+                      Apply Now — Get Money Today <FiArrowRight className="ml-1" size={14}/>
                     </Link>
-                    <button onClick={() => setResult(null)} className="text-gray-400 text-sm hover:text-gray-600 transition-colors">
-                      ← Check again
+                    <button onClick={() => setResult(null)} className="text-gray-400 text-sm hover:text-gray-600 transition-colors flex items-center gap-1 mx-auto">
+                      <svg viewBox="0 0 24 24" className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="15 18 9 12 15 6"/></svg> Check again
                     </button>
                   </>
                 ) : (
@@ -156,11 +156,14 @@ export default function EligibilityChecker() {
                       ))}
                     </div>
                     <div className="bg-blue-50 border border-blue-100 rounded-xl p-4 mb-5 text-left">
-                      <p className="text-blue-700 text-sm font-semibold mb-1">💡 Tip</p>
+                      <p className="text-blue-700 text-sm font-semibold mb-1 flex items-center gap-1.5">
+                        <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                        Tip
+                      </p>
                       <p className="text-blue-600 text-xs">Call us at +91 87960 41166 — our team can help find alternative solutions for your situation.</p>
                     </div>
                     <button onClick={() => setResult(null)} className="btn-outline w-full justify-center">
-                      ← Try Again
+                      <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="15 18 9 12 15 6"/></svg> Try Again
                     </button>
                   </>
                 )}

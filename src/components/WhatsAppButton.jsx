@@ -24,7 +24,7 @@ export default function WhatsAppButton() {
           {/* Header */}
           <div className="bg-green-600 px-4 py-4 flex items-center gap-3">
             <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
-              <span className="text-white text-xl">👨‍💼</span>
+              <svg viewBox="0 0 24 24" className="w-5 h-5" fill="none" stroke="white" strokeWidth="1.8"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
             </div>
             <div className="flex-1">
               <p className="text-white font-semibold text-sm">SalaryUncle Support</p>
@@ -42,7 +42,7 @@ export default function WhatsAppButton() {
           <div className="bg-gray-50 p-4">
             <div className="bg-white rounded-2xl rounded-tl-none shadow-sm p-3 max-w-xs">
               <p className="text-gray-800 text-sm leading-relaxed">
-                👋 Hi! I'm here to help you get your loan approved fast. What can I help you with?
+                Hi! I'm here to help you get your loan approved fast. What can I help you with?
               </p>
               <p className="text-gray-400 text-xs mt-1 text-right">Just now</p>
             </div>
@@ -59,7 +59,7 @@ export default function WhatsAppButton() {
             ))}
             <button onClick={() => sendMessage('Hi, I need help with a loan')}
               className="w-full flex items-center justify-center gap-2 bg-green-600 text-white rounded-xl py-3 text-sm font-semibold hover:bg-green-700 transition-colors mt-2">
-              <span>💬</span> Open WhatsApp Chat
+              <FiMessageCircle size={16}/> Open WhatsApp Chat
             </button>
           </div>
         </div>

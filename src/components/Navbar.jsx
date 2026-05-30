@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { FiMenu, FiX, FiPhone } from 'react-icons/fi';
+import { FiMenu, FiX, FiPhone, FiArrowRight } from 'react-icons/fi';
 
 const navLinks = [
   { name: 'Home', path: '/' },
@@ -75,7 +75,7 @@ export default function Navbar() {
           {/* CTA */}
           <div className="hidden md:flex items-center gap-3">
             <Link to="/apply" className="btn-primary text-sm py-2 px-5">
-              Apply Now →
+              Apply Now <FiArrowRight className="inline ml-1" size={14}/>
             </Link>
           </div>
 
@@ -107,7 +107,7 @@ export default function Navbar() {
               </Link>
             ))}
             <Link to="/apply" className="block btn-primary text-center mt-3">
-              Apply Now →
+              Apply Now <FiArrowRight className="inline ml-1" size={14}/>
             </Link>
           </div>
         </div>

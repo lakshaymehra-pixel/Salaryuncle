@@ -334,7 +334,7 @@ function StepModal({ stepId, onClose, onComplete }) {
         <button type="submit" disabled={!panVerified || !form.dob}
           className="w-full py-3.5 rounded-xl text-white font-semibold disabled:opacity-50"
           style={{background:'linear-gradient(135deg,#29b6d4,#1976d2)'}}>
-          Save & Continue →
+          Save & Continue
         </button>
       </form>
     ),
@@ -411,7 +411,7 @@ function StepModal({ stepId, onClose, onComplete }) {
         <button type="submit" disabled={!aadhaarF || !aadhaarB || !aadhaarVerified}
           className="w-full py-3.5 rounded-xl text-white font-semibold disabled:opacity-50"
           style={{background:'linear-gradient(135deg,#29b6d4,#1976d2)'}}>
-          Save & Continue →
+          Save & Continue
         </button>
       </form>
     ),
@@ -437,7 +437,7 @@ function StepModal({ stepId, onClose, onComplete }) {
         <button type="submit"
           className="w-full py-3.5 rounded-xl text-white font-semibold"
           style={{background:'linear-gradient(135deg,#29b6d4,#1976d2)'}}>
-          Save & Continue →
+          Save & Continue
         </button>
       </form>
     ),
@@ -472,7 +472,7 @@ function StepModal({ stepId, onClose, onComplete }) {
         <button type="submit" disabled={!salarySlip || !bankStmt}
           className="w-full py-3.5 rounded-xl text-white font-semibold disabled:opacity-50"
           style={{background:'linear-gradient(135deg,#29b6d4,#1976d2)'}}>
-          Save & Continue →
+          Save & Continue
         </button>
       </form>
     ),
@@ -497,12 +497,12 @@ function StepModal({ stepId, onClose, onComplete }) {
           <p className="text-xs text-gray-500 mt-3">Clear, front-facing photo in good lighting.</p>
         </div>
         <div className="bg-blue-50 border border-blue-100 rounded-xl p-3 text-xs text-blue-700">
-          ✅ Your selfie is used for live face verification only. Encrypted & stored securely.
+          <span className="flex items-center gap-1.5"><svg viewBox="0 0 24 24" className="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg> Your selfie is used for live face verification only. Encrypted &amp; stored securely.</span>
         </div>
         <button type="submit" disabled={!selfie}
           className="w-full py-3.5 rounded-xl text-white font-semibold disabled:opacity-50"
           style={{background:'linear-gradient(135deg,#29b6d4,#1976d2)'}}>
-          Complete Registration 🎉
+          Complete Registration
         </button>
       </form>
     ),
@@ -656,7 +656,9 @@ function LoanHistory({ phone, profileData }) {
     <div>
       <div className="bg-white rounded-2xl p-6 mb-6 border border-gray-100 shadow-sm">
         <div className="flex items-start gap-4">
-          <div className="w-20 h-20 bg-gray-100 rounded-xl flex items-center justify-center text-3xl">👤</div>
+          <div className="w-20 h-20 bg-gray-100 rounded-xl flex items-center justify-center">
+              <svg viewBox="0 0 24 24" className="w-10 h-10 text-gray-400" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </div>
           <div className="space-y-1 text-sm">
             <div className="flex gap-3"><span className="text-blue-600 font-semibold w-20">Name:</span><span className="text-gray-700">{d.fullName || d.panName || 'NA'}</span></div>
             <div className="flex gap-3"><span className="text-blue-600 font-semibold w-20">PAN Card:</span><span className="text-gray-700">{d.pan ? d.pan.toUpperCase() : 'NA'}</span></div>

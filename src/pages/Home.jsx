@@ -10,19 +10,22 @@ import EligibilityChecker from '../components/EligibilityChecker';
 // ---------- TICKER ----------
 function Ticker() {
   const items = [
-    '✅ Rajesh from Delhi got ₹2L in 3 hrs',
-    '🚀 Priya from Mumbai approved in 45 mins',
-    '💰 Amit from Bangalore received ₹5L today',
-    '⚡ Sunita from Hyderabad — loan disbursed!',
-    '🎉 Vikram from Chandigarh got instant approval',
-    '💸 Meena from Pune — ₹1L in 2 hours',
-    '✅ Rohit from Chennai — salary advance approved',
+    'Rajesh from Delhi got ₹2L in 3 hrs',
+    'Priya from Mumbai approved in 45 mins',
+    'Amit from Bangalore received ₹5L today',
+    'Sunita from Hyderabad — loan disbursed!',
+    'Vikram from Chandigarh got instant approval',
+    'Meena from Pune — ₹1L in 2 hours',
+    'Rohit from Chennai — salary advance approved',
   ];
   return (
     <div className="bg-primary/10 border-y border-primary/20 py-2.5 overflow-hidden">
       <div className="flex animate-marquee whitespace-nowrap gap-12" style={{animation:'marquee 25s linear infinite'}}>
         {[...items, ...items].map((item, i) => (
-          <span key={i} className="text-sm text-primary font-medium flex-shrink-0">{item}</span>
+          <span key={i} className="text-sm text-primary font-medium flex-shrink-0 flex items-center gap-2">
+            <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            {item}
+          </span>
         ))}
       </div>
       <style>{`@keyframes marquee { 0% { transform: translateX(0) } 100% { transform: translateX(-50%) } }`}</style>
@@ -132,7 +135,7 @@ function QuickLoanCard() {
       </div>
 
       <Link to="/apply" className="btn-primary w-full justify-center py-3.5 text-base">
-        Get This Loan Now →
+        Get This Loan Now <FiArrowRight className="inline ml-1" size={14}/>
       </Link>
       <p className="text-xs text-center text-gray-400 mt-2">*Indicative rates. Final rate based on profile.</p>
     </div>
@@ -226,42 +229,42 @@ function Stats() {
 function Services() {
   const services = [
     {
-      icon: '💰',
+      icon: <svg viewBox="0 0 24 24" className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>,
       title: 'Salary Advance',
       desc: 'Get up to 3x your monthly salary as advance with zero waiting. Perfect for month-end cash crunches.',
       amount: 'Up to ₹3 Lakhs',
       time: '2 Hours',
     },
     {
-      icon: '🏥',
+      icon: <svg viewBox="0 0 24 24" className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>,
       title: 'Medical Emergency',
       desc: 'Handle unexpected hospital bills instantly. No document delay during health emergencies.',
       amount: 'Up to ₹5 Lakhs',
       time: '4 Hours',
     },
     {
-      icon: '🎓',
+      icon: <svg viewBox="0 0 24 24" className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>,
       title: 'Education Loan',
       desc: "Fund your child's education or your own upskilling course without breaking savings.",
       amount: 'Up to ₹5 Lakhs',
       time: 'Quick',
     },
     {
-      icon: '✈️',
+      icon: <svg viewBox="0 0 24 24" className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.8 19.79 19.79 0 0112 2.18 2 2 0 0114 4v3l-2 1s1 2 2 3 3 2 3 2z"/></svg>,
       title: 'Travel Loan',
       desc: 'Plan your dream vacation without worrying about upfront costs. Travel now, pay easy EMIs.',
       amount: 'Up to ₹2 Lakhs',
       time: '6 Hours',
     },
     {
-      icon: '🏠',
+      icon: <svg viewBox="0 0 24 24" className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>,
       title: 'Home Renovation',
       desc: 'Transform your home without dipping into long-term savings. Flexible EMI options.',
       amount: 'Up to ₹5 Lakhs',
       time: 'Quick',
     },
     {
-      icon: '💍',
+      icon: <svg viewBox="0 0 24 24" className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>,
       title: 'Wedding Loan',
       desc: 'Make your special day perfect without financial stress. Easy repayment plans.',
       amount: 'Up to ₹5 Lakhs',
@@ -283,7 +286,7 @@ function Services() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {services.map((s) => (
             <div key={s.title} className="card p-6 group">
-              <div className="text-4xl mb-4">{s.icon}</div>
+              <div className="w-12 h-12 bg-primary-50 rounded-xl flex items-center justify-center mb-4 text-primary">{s.icon}</div>
               <h3 className="text-xl font-bold font-heading text-gray-900 mb-2">{s.title}</h3>
               <p className="text-gray-600 text-sm mb-5 leading-relaxed">{s.desc}</p>
               <div className="flex items-center justify-between pt-4 border-t border-gray-100">
@@ -429,12 +432,12 @@ function WhyUs() {
 // ---------- ELIGIBILITY ----------
 function Eligibility() {
   const criteria = [
-    { icon: '🏢', title: 'Employment', desc: 'Salaried employee in a private or government organization' },
-    { icon: '💼', title: 'Experience', desc: 'Minimum 6 months in current job' },
-    { icon: '💰', title: 'Salary', desc: 'Monthly net salary of at least ₹20,000' },
-    { icon: '🎂', title: 'Age', desc: 'Between 21 years and 58 years of age' },
-    { icon: '📍', title: 'Location', desc: 'Resident of India with valid address proof' },
-    { icon: '🏦', title: 'Bank Account', desc: 'Active bank account with salary credited monthly' },
+    { icon: <svg viewBox="0 0 24 24" className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg>, title: 'Employment', desc: 'Salaried employee in a private or government organization' },
+    { icon: <svg viewBox="0 0 24 24" className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/></svg>, title: 'Experience', desc: 'Minimum 6 months in current job' },
+    { icon: <svg viewBox="0 0 24 24" className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>, title: 'Salary', desc: 'Monthly net salary of at least ₹20,000' },
+    { icon: <svg viewBox="0 0 24 24" className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>, title: 'Age', desc: 'Between 21 years and 58 years of age' },
+    { icon: <svg viewBox="0 0 24 24" className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>, title: 'Location', desc: 'Resident of India with valid address proof' },
+    { icon: <svg viewBox="0 0 24 24" className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>, title: 'Bank Account', desc: 'Active bank account with salary credited monthly' },
   ];
 
   return (
@@ -451,7 +454,7 @@ function Eligibility() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {criteria.map((c) => (
                 <div key={c.title} className="flex items-start gap-4 p-4 bg-gray-50 rounded-xl border border-gray-100">
-                  <span className="text-2xl">{c.icon}</span>
+                  <div className="text-primary mt-0.5 flex-shrink-0">{c.icon}</div>
                   <div>
                     <h4 className="font-semibold text-gray-900 text-sm mb-1">{c.title}</h4>
                     <p className="text-gray-600 text-xs leading-relaxed">{c.desc}</p>
@@ -488,8 +491,9 @@ function Eligibility() {
               ))}
             </div>
             <div className="mt-6 p-4 bg-primary/20 rounded-xl border border-primary/30">
-              <p className="text-primary-light text-sm text-center font-medium">
-                ✓ All documents can be uploaded digitally. No physical submission needed.
+              <p className="text-primary-light text-sm text-center font-medium flex items-center justify-center gap-2">
+                <svg viewBox="0 0 24 24" className="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                All documents can be uploaded digitally. No physical submission needed.
               </p>
             </div>
           </div>

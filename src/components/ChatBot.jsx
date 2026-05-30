@@ -69,7 +69,7 @@ export default function ChatBot() {
       setTimeout(() => {
         setMessages([{
           role: 'assistant',
-          text: "Namaste! 🙏 I'm **Myra**, your SalaryUncle AI assistant.\n\nI can help you with loans, eligibility, EMI calculations, and more. Kya main aapki madad kar sakti hoon? 😊",
+          text: "Namaste! I'm **Myra**, your SalaryUncle AI assistant.\n\nI can help you with loans, eligibility, EMI calculations, and more. Kya main aapki madad kar sakti hoon?",
           time: now(),
         }]);
         setUnread(0);

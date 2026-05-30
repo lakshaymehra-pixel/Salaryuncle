@@ -1,9 +1,13 @@
 import { Link } from 'react-router-dom';
 import { FiArrowRight, FiCheckCircle } from 'react-icons/fi';
 
+const SvgIcon = ({ path, viewBox = "0 0 24 24" }) => (
+  <svg viewBox={viewBox} className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="1.5">{path}</svg>
+);
+
 const services = [
   {
-    icon: '💰',
+    icon: <SvgIcon path={<><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></>} />,
     title: 'Salary Advance Loan',
     tagline: 'Get your salary early — before payday.',
     desc: 'Running short before the month ends? Get up to 3x your monthly salary as an advance. Repay from your next salary with zero stress.',
@@ -15,7 +19,7 @@ const services = [
     tag: 'Most Popular',
   },
   {
-    icon: '🏥',
+    icon: <SvgIcon path={<path d="M22 12h-4l-3 9L9 3l-3 9H2"/>} />,
     title: 'Medical Emergency Loan',
     tagline: 'When health can\'t wait, neither should your loan.',
     desc: 'Unexpected hospitalisation or medical procedure? We disburse medical loans within 4 hours so your treatment never gets delayed.',
@@ -27,7 +31,7 @@ const services = [
     tag: 'Urgent',
   },
   {
-    icon: '🏠',
+    icon: <SvgIcon path={<><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></>} />,
     title: 'Home Renovation Loan',
     tagline: 'Make your home your dream home.',
     desc: 'Whether it\'s a fresh coat of paint, new furniture, or a complete interior overhaul — fund your home improvement without touching savings.',
@@ -39,7 +43,7 @@ const services = [
     tag: null,
   },
   {
-    icon: '🎓',
+    icon: <SvgIcon path={<><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></>} />,
     title: 'Education Loan',
     tagline: "Invest in education, don't compromise.",
     desc: "For your child's school fees, coaching classes, higher education, or your own professional upskilling — we fund dreams without delays.",
@@ -51,7 +55,7 @@ const services = [
     tag: null,
   },
   {
-    icon: '✈️',
+    icon: <SvgIcon path={<><path d="M21 3L3 10.53v.98l6.84 2.65L12.48 21h.98L21 3z"/></>} />,
     title: 'Travel Loan',
     tagline: 'Explore the world now, pay comfortably later.',
     desc: 'Book that long-awaited holiday — domestic or international. Our travel loan covers flights, hotels, and packages with easy EMIs.',
@@ -63,7 +67,7 @@ const services = [
     tag: null,
   },
   {
-    icon: '💍',
+    icon: <SvgIcon path={<path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/>} />,
     title: 'Wedding Loan',
     tagline: 'Your dream wedding, your budget, our support.',
     desc: 'Plan your perfect wedding without compromising on any detail. Fund venue, catering, decor, and honeymoon with a single loan.',
@@ -75,7 +79,7 @@ const services = [
     tag: null,
   },
   {
-    icon: '🚗',
+    icon: <SvgIcon path={<><rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h4l3 5v3h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></>} />,
     title: 'Two-Wheeler Loan',
     tagline: 'Ride to work without draining savings.',
     desc: 'Buy your new bike or scooter for easy commuting. We cover up to 90% of on-road price with minimal documentation.',
@@ -87,7 +91,7 @@ const services = [
     tag: null,
   },
   {
-    icon: '💻',
+    icon: <SvgIcon path={<><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></>} />,
     title: 'Gadget & Electronics Loan',
     tagline: 'Get the tech you need, on easy EMI.',
     desc: 'Laptop, smartphone, smart TV, or home appliances — upgrade your life with our gadget loan at competitive interest rates.',
@@ -126,7 +130,7 @@ export default function Services() {
                 <div className="p-8">
                   <div className="flex items-start justify-between mb-6">
                     <div className="flex items-center gap-4">
-                      <span className="text-5xl">{s.icon}</span>
+                      <div className="w-14 h-14 bg-primary-50 rounded-2xl flex items-center justify-center text-primary flex-shrink-0">{s.icon}</div>
                       <div>
                         <h3 className="text-xl font-bold font-heading text-gray-900">{s.title}</h3>
                         <p className="text-primary text-sm font-medium">{s.tagline}</p>
